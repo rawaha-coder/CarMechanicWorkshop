@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#03A9F4</color>
+    <color name="colorPrimaryDark">@android:color/background_dark</color>
+    <color name="colorAccent">@android:color/background_dark</color>
+    <color name="mainButtonTextColor">#FEFEFE</color>
+    <color name="colorButtonPressed">#E41A6E</color>
+    <color name="colorButtonHovered">#FFEB3B</color>
+    <color name="colorButtonEnabled">#03A9F4</color>
+</resources>

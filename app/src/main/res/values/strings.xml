@@ -1,0 +1,49 @@
+<resources>
+
+    <string name="app_name">Car Mechanic Workshop</string>
+    <string name="mechanic_workshop">Mechanic Workshop</string>
+
+
+    <!--main activity texts-->
+    <string name="mechanic_workshop_button">Mechanic Workshop</string>
+    <string name="dashboard_lights_button">Dashboard Lights</string>
+    <string name="ask_mechanic_button">Ask Mechanic</string>
+    <string name="main_button_font_family">casual</string>
+
+    <!--First Install activity texts-->
+    <string name="welcome_to">Welcome to</string>
+    <string name="automobile">Car Mechanic</string>
+    <string name="garage_technique">Workshop</string>
+    <string name="by">***** by *****</string>
+    <string name="automobile_garage_technique">AutomobileGT.com</string>
+    <string name="sample_aula_and_privacy_policy"><![CDATA[<p>By using this software, you agree with our <a href="http://www.automobilegt.com" color="#E41A6E">AULA</a> and <a href="http://www.automobilegt.com" color="#E41A6E">Privacy Policy</a></p>]]></string>
+    <string name="get_started">Get Started</string>
+
+    <!--AskMechanic activity texts-->
+    <string name="askMechanicMessage">Get your automotive-related questions answered by a professional mechanic online.\n\n Tell us about your car model and the issue you have with your car and we will try to help you with your car as fast as possible.\n\n The mechanics are certified and ready to help you with your issues 24/7 online.\n
+    </string>
+    <string name="askMechanicLink">Click here to ask a mechanic</string>
+
+    <!--DashboardWarningLight activity texts-->
+    <string name="red_warning_light_button">red warning light symbols</string>
+    <string name="orange_warning_light_button">yellow/orange warning light symbols</string>
+    <string name="green_warning_light_button">green warning light symbols</string>
+    <string name="dashboard_warning_light_text">
+        <![CDATA[
+    <p>Color <font color="#EE0000">RED</font> indicates a potentially serious problem or safety issue. Attend to it! Red may also indicate an important reminder.</p>
+    <p>Color <font color="#fbe332">YELLOW</font> or <font color="#f4993e">ORANGE</font> mean something needs to be serviced or repaired soon. If it is flashing, it is important that you contact your dealer or trusted repair shop.</p>
+    <p>Color <font color="#39a0fb">BLUE</font> or <font color="#28cb12">GREEN</font> is only telling you that a system is on or operating.</p>
+        ]]>
+    </string>
+
+    <string name="about">About</string>
+    <string name="play_video">Play Video</string>
+    <string name="back_home">Back Home</string>
+    <string name="add_to_favorite">Add to Favorite</string>
+    <string name="my_favorite">My Favorite</string>
+    <string name="share_video">Share Your Video</string>
+    <string name="car_brand_video_shared">Car Brand</string>
+    <string name="car_model_video_shared">Car Model</string>
+    <string name="car_year_video_shared">Car Year</string>
+    <string name="car_link_video_shared">Video Link</string>
+</resources>
