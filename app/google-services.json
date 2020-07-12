@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "459017658437",
+    "firebase_url": "https://car-mechanic-workshop.firebaseio.com",
+    "project_id": "car-mechanic-workshop",
+    "storage_bucket": "car-mechanic-workshop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459017658437:android:8f35d4e81858335144432c",
+        "android_client_info": {
+          "package_name": "com.automobilegt.carmechanicworkshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459017658437-9n7rj4q4l8m8d1dt7qqd0av5lu9s8vt9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGZEFwDtC4GweWsR8EGLcytfw-GsspGZs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "459017658437-9n7rj4q4l8m8d1dt7qqd0av5lu9s8vt9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
