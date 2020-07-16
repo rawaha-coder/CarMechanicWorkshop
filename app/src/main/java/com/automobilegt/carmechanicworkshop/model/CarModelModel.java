@@ -2,24 +2,19 @@ package com.automobilegt.carmechanicworkshop.model;
 
 import java.io.Serializable;
 
-public class CarModelYear implements Serializable {
+public class CarModelModel implements Serializable {
 
     private String mCarModelName;
     private int mCarModelLogo;
     private String mFolderLink;
 
-    public CarModelYear() {
+    public CarModelModel() {
     }
 
-    public CarModelYear(String carModelName, int carModelLogo, String Link) {
-
+    public CarModelModel(String carModelName, int carModelLogo, String link) {
         mCarModelName = carModelName;
         mCarModelLogo = carModelLogo;
-
-        String modelName = carModelName.toLowerCase();
-        modelName = modelName.replaceAll("\\s","");
-
-        mFolderLink = Link + "/"  + modelName;
+        mFolderLink = link + "/" + carModelName + "/CarYear";
     }
 
     public String getCarModelName() {

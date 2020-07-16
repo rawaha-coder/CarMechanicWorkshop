@@ -5,90 +5,80 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.automobilegt.carmechanicworkshop.adapter.VideoListRecyViewAdapter;
 import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
-import com.automobilegt.carmechanicworkshop.model.CarModelYear;
 import com.automobilegt.carmechanicworkshop.model.CarVideoModel;
+import com.automobilegt.carmechanicworkshop.model.CarYearModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.lang.ref.Reference;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class VideoListActivity extends AppCompatActivity {
 
     private static final int VIDEO_REQUEST_CODE = 302;
+
     private String folder;
     private int logoId;
     private String year;
+
     private String carYearLink;
-    private CarModelYear modelYear;
+
+    private CarYearModel mCarYear;
     private ArrayList<CarVideoModel> mVideoList;
-    private RequestQueue requestQueue;
     private VideoListRecyViewAdapter adapter;
     private RecyclerView recyViewCarVideoList;
+
+    private FirebaseFirestore mFirebaseFirestore = FirebaseFirestore.getInstance();;
+    private CollectionReference mCollectionReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_list);
 
-        modelYear = (CarModelYear) getIntent().getSerializableExtra("year");
+        mCarYear = (CarYearModel) getIntent().getSerializableExtra("year");
         carYearLink = getIntent().getStringExtra("link");
-        folder = modelYear.getFolderLink();
-        year = modelYear.getCarModelName();
-        logoId = modelYear.getCarModelLogo();
+        folder = mCarYear.getFolderLink();
+        year = mCarYear.getCarYear();
+        logoId = mCarYear.getCarModelLogo();
+
+        mCollectionReference = mFirebaseFirestore.collection(folder);
 
         setTitle(year + " Vidoes List");
 
-        requestQueue = Volley.newRequestQueue(this);
         mVideoList = new ArrayList<CarVideoModel>();
 
         recyViewCarVideoList = findViewById(R.id.recy_view_video_list_activity);
 
-        if(folder != null) {
-            try{
-                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
-                        folder + ".json", null,
-                        new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                for (int i=0; i<response.length(); i++) {
-                                    try {
-                                        JSONObject jsonObject = response.getJSONObject(i);
-                                        mVideoList.add(new CarVideoModel(jsonObject.getString("title"), jsonObject.getString("message"), jsonObject.getString("link")));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                                adapter.notifyDataSetChanged();
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
 
-                    }
-                });
-                requestQueue.add(jsonArrayRequest);
-            }catch (Exception e){
-                e.printStackTrace();
-                Toast.makeText(this, "fail to connect", Toast.LENGTH_SHORT).show();
-            }
+        if(folder != null){
+            mCollectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                 for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()){
+
+                         String title =  snapshot.getString("Title");
+                         String description =  snapshot.getString("Description");
+                         String link =  snapshot.getString("Link");
+
+                         mVideoList.add(new CarVideoModel(title, description, link));
+
+                 }
+                    adapter.notifyDataSetChanged();
+                }
+            });
         }
 
 

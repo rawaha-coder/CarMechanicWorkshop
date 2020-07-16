@@ -5,91 +5,79 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-import com.automobilegt.carmechanicworkshop.adapter.CarModelRecyViewAdapter;
+import com.automobilegt.carmechanicworkshop.adapter.CarYearRecyViewAdapter;
 import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
-import com.automobilegt.carmechanicworkshop.model.CarModelYear;
+import com.automobilegt.carmechanicworkshop.model.CarModelModel;
+import com.automobilegt.carmechanicworkshop.model.CarYearModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class CarYearActivity extends AppCompatActivity {
 
     private static final int CAR_YEAR_REQUEST_CODE = 301;
-    private CarModelYear model;
+
+    private CarModelModel model;
+
     private String folder;
     private String modelName;
     private String carModelLink;
     private int logoId;
-    private ArrayList<CarModelYear> mModelYearlList;
-    private RequestQueue requestQueue;
-    private CarModelRecyViewAdapter adapter;
+
+    private ArrayList<CarYearModel> mModelYearlList;
+    private CarYearRecyViewAdapter adapter;
     private RecyclerView recyViewCarModelYear;
+
+    private FirebaseFirestore mFirebaseFirestore = FirebaseFirestore.getInstance();;
+    private DocumentReference mDocumentReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_year);
 
+        model = (CarModelModel) getIntent().getSerializableExtra("model");
 
-        model = (CarModelYear) getIntent().getSerializableExtra("model");
         carModelLink = getIntent().getStringExtra("link");
+
         folder = model.getFolderLink();
         modelName = model.getCarModelName();
         logoId = model.getCarModelLogo();
 
+        mDocumentReference = mFirebaseFirestore.document(folder);
+
         setTitle(modelName + " Years List");
 
-        requestQueue = Volley.newRequestQueue(this);
-        mModelYearlList = new ArrayList<CarModelYear>();
+        mModelYearlList = new ArrayList<CarYearModel>();
 
         if(folder != null) {
-            try{
-                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
-                        folder + "/caryearlist.json", null,
-                        new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                for (int i=0; i<response.length(); i++) {
-                                    try {
-                                        mModelYearlList.add(new CarModelYear(response.getString(i), logoId, folder) );
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
+            mDocumentReference.get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if(documentSnapshot.exists()){
+                                List<String> list = (List<String>) documentSnapshot.get("List");
+                                for(int i = 0; i < list.size(); i++){
+                                    mModelYearlList.add(new CarYearModel(list.get(i), logoId, folder));
                                 }
-                                adapter.notifyDataSetChanged();
                             }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                });
-                requestQueue.add(jsonArrayRequest);
-            }catch (Exception e){
-                e.printStackTrace();
-                Toast.makeText(this, "fail to connect", Toast.LENGTH_SHORT).show();
-            }
-
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
         }
 
         recyViewCarModelYear = findViewById(R.id.recy_view_model_year_activity);
-        adapter = new CarModelRecyViewAdapter(mModelYearlList);
+        adapter = new CarYearRecyViewAdapter(mModelYearlList);
         recyViewCarModelYear.setAdapter(adapter);
         recyViewCarModelYear.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
         recyViewCarModelYear.setLayoutManager(new LinearLayoutManager(this));

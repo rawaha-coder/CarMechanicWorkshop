@@ -12,16 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.automobilegt.carmechanicworkshop.R;
 import com.automobilegt.carmechanicworkshop.model.CarModelModel;
+import com.automobilegt.carmechanicworkshop.model.CarYearModel;
 
 import java.util.ArrayList;
 
-public class CarModelRecyViewAdapter extends RecyclerView.Adapter<CarModelRecyViewAdapter.ViewHolder> {
+public class CarYearRecyViewAdapter extends RecyclerView.Adapter<CarYearRecyViewAdapter.ViewHolder> {
 
-    private ArrayList<CarModelModel> mCarModelList;
+    private ArrayList<CarYearModel> mCarYearList;
     private int mLogoResId;
 
-    public CarModelRecyViewAdapter(ArrayList<CarModelModel> carModelList) {
-        mCarModelList = carModelList;
+    public CarYearRecyViewAdapter(ArrayList<CarYearModel> carYearList) {
+        mCarYearList = carYearList;
     }
 
     @NonNull
@@ -37,13 +38,13 @@ public class CarModelRecyViewAdapter extends RecyclerView.Adapter<CarModelRecyVi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        CarModelModel carModel = mCarModelList.get(position);
+        CarYearModel carYear = mCarYearList.get(position);
 
         ImageView brandLogo = holder.mCarBrandLogoImageView;
-        brandLogo.setImageResource(carModel.getCarModelLogo());
+        brandLogo.setImageResource(carYear.getCarModelLogo());
 
-        TextView brandName = holder.mModelNameTextView;
-        brandName.setText(carModel.getCarModelName());
+        TextView modelYear = holder.mModelYearTextView;
+        modelYear.setText(carYear.getCarYear());
 
         ImageView playArrow = holder.mPlayArrowImageView;
         playArrow.setImageResource(R.drawable.play_arrow_black);
@@ -51,19 +52,19 @@ public class CarModelRecyViewAdapter extends RecyclerView.Adapter<CarModelRecyVi
 
     @Override
     public int getItemCount() {
-        return mCarModelList.size();
+        return mCarYearList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mCarBrandLogoImageView;
-        TextView mModelNameTextView;
+        TextView mModelYearTextView;
         ImageView mPlayArrowImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mCarBrandLogoImageView = itemView.findViewById(R.id.adapter_car_model_logo);
-            mModelNameTextView = itemView.findViewById(R.id.adapter_car_model_name);
+            mModelYearTextView = itemView.findViewById(R.id.adapter_car_model_name);
             mPlayArrowImageView = itemView.findViewById(R.id.adapter_play_arrow_model);
         }
     }
