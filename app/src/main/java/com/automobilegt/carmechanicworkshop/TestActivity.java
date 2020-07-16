@@ -1,38 +1,41 @@
 package com.automobilegt.carmechanicworkshop;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.automobilegt.carmechanicworkshop.adapter.CarBrandRecyViewAdapter;
 import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
 import com.automobilegt.carmechanicworkshop.model.CarBrandModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import static com.automobilegt.carmechanicworkshop.util.Constants.AGT_REPAIR_FOLDER;
+public class TestActivity extends AppCompatActivity {
 
-public class CarBrandActivity extends AppCompatActivity {
+    private static final String TAG = "testActivity";
 
-    //private RequestQueue requestQueue;
     private ArrayList<CarBrandModel> mCarBrandModels;
     private RecyclerView recyViewCarBrand;
     private CarBrandRecyViewAdapter adapter;
@@ -41,14 +44,14 @@ public class CarBrandActivity extends AppCompatActivity {
     private FirebaseFirestore mFirebaseFirestore = FirebaseFirestore.getInstance();;
     private DocumentReference mDocumentReference = mFirebaseFirestore.document("repair/CarBrandList");
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_car_brand);
+        setContentView(R.layout.activity_test);
 
         setTitle("Car Brand List");
 
-        //requestQueue = Volley.newRequestQueue(this);
         mCarBrandModels = new ArrayList<CarBrandModel>();
 
 
@@ -57,7 +60,7 @@ public class CarBrandActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if(documentSnapshot.exists()){
-                            List<String> makerList = (List<String>) documentSnapshot.get("brandList");
+                            List<String>  makerList = (List<String>) documentSnapshot.get("brandList");
                             for(int i = 0; i < makerList.size(); i++){
                                 mCarBrandModels.add(new CarBrandModel(makerList.get(i)));
                             }
@@ -66,41 +69,11 @@ public class CarBrandActivity extends AppCompatActivity {
                     }
                 });
 
-//        try {
-//            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
-//                    AGT_REPAIR_FOLDER + "carbrandlist.json" , null,
-//                    new Response.Listener<JSONArray>() {
-//                        @Override
-//                        public void onResponse(JSONArray response) {
-//                            for (int i = 0; i < response.length(); i++) {
-//                                try {
-//
-//                                    mCarBrandModels.add(new CarBrandModel(response.getString(i)));
-//
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                            adapter.notifyDataSetChanged();
-//                        }
-//                    }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//
-//                }
-//            });
-//            requestQueue.add(jsonArrayRequest);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            Log.i("CarBrand", "Connect Fail");
-//        }
-
-        recyViewCarBrand = findViewById(R.id.recy_view_car_brand_activity);
+        recyViewCarBrand = findViewById(R.id.recycleview_car_brand_activity);
         adapter = new CarBrandRecyViewAdapter(mCarBrandModels);
         recyViewCarBrand.setAdapter(adapter);
         recyViewCarBrand.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
         recyViewCarBrand.setLayoutManager(new LinearLayoutManager(this));
-
 
         recyViewCarBrand.addOnItemTouchListener(new RecyclerItemClickListener(this, recyViewCarBrand, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
@@ -119,5 +92,46 @@ public class CarBrandActivity extends AppCompatActivity {
                 })
         );
 
+    }
+
+
+
+    public ArrayList<String> readData(){
+       final ArrayList<String>  mList = new ArrayList<>();
+        mDocumentReference.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists()){
+                            List<String>  makerList = (List<String>) documentSnapshot.get("brandList");
+                            for(int i = 0; i < makerList.size(); i++){
+                                mCarBrandModels.add(new CarBrandModel(makerList.get(i)));
+                            }
+
+                        }
+                    }
+                });
+
+        return mList;
+    }
+
+    public void addData(){
+        Map<String, Object> docData = new HashMap<>();
+
+        docData.put("brandList", Arrays.asList("Ford", "Hyundai", "Kia", "Nissan", "Toyota", "Aston Martin", "Land Rover"));
+
+        mDocumentReference.set(docData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(TestActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(TestActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
