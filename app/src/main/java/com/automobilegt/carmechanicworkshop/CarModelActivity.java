@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
+
 import com.automobilegt.carmechanicworkshop.adapter.CarModelRecyViewAdapter;
 import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
 import com.automobilegt.carmechanicworkshop.model.CarBrandModel;
@@ -27,6 +29,7 @@ public class CarModelActivity extends AppCompatActivity {
     private String brandName;
     private int logoId;
     private CarBrandModel brand;
+    private ProgressBar mProgressBar;
 
     private ArrayList<CarModelModel> mCarModelList;
     private CarModelRecyViewAdapter adapter;
@@ -48,6 +51,9 @@ public class CarModelActivity extends AppCompatActivity {
 
         mDocumentReference = mFirebaseFirestore.document(folder);
 
+        mProgressBar = findViewById(R.id.cmw_progress_bar);
+        mProgressBar.setVisibility(View.VISIBLE);
+
         setTitle(brandName + " Model List");
 
         mCarModelList = new ArrayList<CarModelModel>();
@@ -65,6 +71,7 @@ public class CarModelActivity extends AppCompatActivity {
                                 }
                             }
                             adapter.notifyDataSetChanged();
+                            mProgressBar.setVisibility(View.GONE);
                         }
                     });
         }

@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
+
 import com.automobilegt.carmechanicworkshop.adapter.CarBrandRecyViewAdapter;
 import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
 import com.automobilegt.carmechanicworkshop.model.CarBrandModel;
@@ -26,6 +28,7 @@ public class CarBrandActivity extends AppCompatActivity {
     private ArrayList<CarBrandModel> mCarBrandList;
     private RecyclerView recyViewCarBrand;
     private CarBrandRecyViewAdapter adapter;
+    private ProgressBar mProgressBar;
 
     // Access a Cloud Firestore instance from your Activity
     private FirebaseFirestore mFirebaseFirestore = FirebaseFirestore.getInstance();;
@@ -36,6 +39,8 @@ public class CarBrandActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_brand);
 
+        mProgressBar = findViewById(R.id.cmw_progress_bar);
+        mProgressBar.setVisibility(View.VISIBLE);
         setTitle("Car Brand List");
 
         mCarBrandList = new ArrayList<CarBrandModel>();
@@ -52,6 +57,7 @@ public class CarBrandActivity extends AppCompatActivity {
                             }
                         }
                         adapter.notifyDataSetChanged();
+                        mProgressBar.setVisibility(View.GONE);
                     }
                 });
 

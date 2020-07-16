@@ -9,20 +9,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
+
 import com.automobilegt.carmechanicworkshop.adapter.VideoListRecyViewAdapter;
 import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
 import com.automobilegt.carmechanicworkshop.model.CarVideoModel;
 import com.automobilegt.carmechanicworkshop.model.CarYearModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.ref.Reference;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class VideoListActivity extends AppCompatActivity {
@@ -32,7 +31,7 @@ public class VideoListActivity extends AppCompatActivity {
     private String folder;
     private int logoId;
     private String year;
-
+    private ProgressBar mProgressBar;
     private String carYearLink;
 
     private CarYearModel mCarYear;
@@ -56,6 +55,9 @@ public class VideoListActivity extends AppCompatActivity {
 
         mCollectionReference = mFirebaseFirestore.collection(folder);
 
+        mProgressBar = findViewById(R.id.cmw_progress_bar);
+        mProgressBar.setVisibility(View.VISIBLE);
+
         setTitle(year + " Vidoes List");
 
         mVideoList = new ArrayList<CarVideoModel>();
@@ -77,6 +79,7 @@ public class VideoListActivity extends AppCompatActivity {
 
                  }
                     adapter.notifyDataSetChanged();
+                    mProgressBar.setVisibility(View.GONE);
                 }
             });
         }
