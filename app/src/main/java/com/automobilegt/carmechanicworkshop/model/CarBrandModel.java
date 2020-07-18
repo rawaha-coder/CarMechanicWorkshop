@@ -22,7 +22,7 @@ public class CarBrandModel implements Serializable {
         //mCarBrandName = BRAND_NAME.get(brandName);
         mCarBrandName = carBrandName;
         mCarBrandLogo = BRAND_LOGO.get(brandName);
-        mFolderLink =  MECHANIC_WORKSHOP_FOLDER + carBrandName + "/CarModel";
+        mFolderLink =  MECHANIC_WORKSHOP_FOLDER + carBrandName + "/model";
     }
 
     public String getCarBrandName() {

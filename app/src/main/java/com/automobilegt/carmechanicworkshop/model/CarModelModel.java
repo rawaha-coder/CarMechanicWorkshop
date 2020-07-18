@@ -14,7 +14,7 @@ public class CarModelModel implements Serializable {
     public CarModelModel(String carModelName, int carModelLogo, String link) {
         mCarModelName = carModelName;
         mCarModelLogo = carModelLogo;
-        mFolderLink = link + "/" + carModelName + "/CarYear";
+        mFolderLink = link + "/" + carModelName + "/year";
     }
 
     public String getCarModelName() {

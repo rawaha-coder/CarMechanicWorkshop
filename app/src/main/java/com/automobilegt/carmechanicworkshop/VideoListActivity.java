@@ -71,9 +71,9 @@ public class VideoListActivity extends AppCompatActivity {
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                  for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()){
 
-                         String title =  snapshot.getString("Title");
-                         String description =  snapshot.getString("Description");
-                         String link =  snapshot.getString("Link");
+                         String title =  snapshot.getString("title");
+                         String description =  snapshot.getString("description");
+                         String link =  snapshot.getString("link");
 
                          mVideoList.add(new CarVideoModel(title, description, link));
 

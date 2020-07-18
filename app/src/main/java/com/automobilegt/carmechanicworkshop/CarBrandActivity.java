@@ -1,5 +1,6 @@
 package com.automobilegt.carmechanicworkshop;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,10 +13,14 @@ import android.widget.ProgressBar;
 import com.automobilegt.carmechanicworkshop.adapter.CarBrandRecyViewAdapter;
 import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
 import com.automobilegt.carmechanicworkshop.model.CarBrandModel;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +38,7 @@ public class CarBrandActivity extends AppCompatActivity {
     // Access a Cloud Firestore instance from your Activity
     private FirebaseFirestore mFirebaseFirestore = FirebaseFirestore.getInstance();;
     private DocumentReference mDocumentReference = mFirebaseFirestore.document(MECHANIC_WORKSHOP_FOLDER);
+    //private CollectionReference mCollectionReference = mFirebaseFirestore.collection(MECHANIC_WORKSHOP_FOLDER);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +57,7 @@ public class CarBrandActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if(documentSnapshot.exists()){
-                            List<String> list = (List<String>) documentSnapshot.get("List");
+                            List<String> list = (List<String>) documentSnapshot.get("list");
                             for(int i = 0; i < list.size(); i++){
                                 mCarBrandList.add(new CarBrandModel(list.get(i)));
                             }
@@ -59,7 +65,13 @@ public class CarBrandActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                         mProgressBar.setVisibility(View.GONE);
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+
 
 
         recyViewCarBrand = findViewById(R.id.recy_view_car_brand_activity);

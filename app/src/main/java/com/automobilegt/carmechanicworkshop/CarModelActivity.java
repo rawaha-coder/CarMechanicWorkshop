@@ -65,7 +65,7 @@ public class CarModelActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             if(documentSnapshot.exists()){
-                                List<String> list = (List<String>) documentSnapshot.get("List");
+                                List<String> list = (List<String>) documentSnapshot.get("list");
                                 for(int i = 0; i < list.size(); i++){
                                     mCarModelList.add(new CarModelModel(list.get(i), logoId, folder));
                                 }
