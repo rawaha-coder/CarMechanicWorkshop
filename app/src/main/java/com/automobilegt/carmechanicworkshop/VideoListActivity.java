@@ -15,6 +15,9 @@ import com.automobilegt.carmechanicworkshop.adapter.VideoListRecyViewAdapter;
 import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
 import com.automobilegt.carmechanicworkshop.model.CarVideoModel;
 import com.automobilegt.carmechanicworkshop.model.CarYearModel;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -28,6 +31,7 @@ public class VideoListActivity extends AppCompatActivity {
 
     private static final int VIDEO_REQUEST_CODE = 302;
 
+    private AdView mAdView;
     private String folder;
     private int logoId;
     private String year;
@@ -46,6 +50,11 @@ public class VideoListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_list);
+
+        MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         mCarYear = (CarYearModel) getIntent().getSerializableExtra("year");
         carYearLink = getIntent().getStringExtra("link");

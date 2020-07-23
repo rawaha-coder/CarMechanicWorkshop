@@ -9,7 +9,13 @@ import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 public class DashboardWarningLightActivity extends AppCompatActivity {
+
+    private AdView mAdView;
     private String color;
     public void warningLightSymbols(View view) {
         if(view.getTag().toString().equals("red")){
@@ -44,5 +50,11 @@ public class DashboardWarningLightActivity extends AppCompatActivity {
         } else {
             textView.setText(Html.fromHtml(getString(R.string.dashboard_warning_light_text)));
         }
+
+        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+        MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 }

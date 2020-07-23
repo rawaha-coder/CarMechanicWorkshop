@@ -14,6 +14,9 @@ import com.automobilegt.carmechanicworkshop.adapter.CarModelRecyViewAdapter;
 import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
 import com.automobilegt.carmechanicworkshop.model.CarBrandModel;
 import com.automobilegt.carmechanicworkshop.model.CarModelModel;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -25,6 +28,7 @@ public class CarModelActivity extends AppCompatActivity {
 
     private static final int CAR_MODEL_REQUEST_CODE = 300;
 
+    private AdView mAdView;
     private String folder;
     private String brandName;
     private int logoId;
@@ -42,6 +46,12 @@ public class CarModelActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_model);
+
+        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+        MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         brand = (CarBrandModel) getIntent().getSerializableExtra("brand");
 

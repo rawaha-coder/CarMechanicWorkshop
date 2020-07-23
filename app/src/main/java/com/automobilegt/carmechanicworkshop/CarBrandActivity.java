@@ -13,6 +13,9 @@ import android.widget.ProgressBar;
 import com.automobilegt.carmechanicworkshop.adapter.CarBrandRecyViewAdapter;
 import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
 import com.automobilegt.carmechanicworkshop.model.CarBrandModel;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -29,6 +32,7 @@ import static com.automobilegt.carmechanicworkshop.util.Constants.MECHANIC_WORKS
 
 public class CarBrandActivity extends AppCompatActivity {
 
+    private AdView mAdView;
 
     private ArrayList<CarBrandModel> mCarBrandList;
     private RecyclerView recyViewCarBrand;
@@ -44,6 +48,12 @@ public class CarBrandActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_brand);
+
+        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+        MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         mProgressBar = findViewById(R.id.cmw_progress_bar);
         mProgressBar.setVisibility(View.VISIBLE);

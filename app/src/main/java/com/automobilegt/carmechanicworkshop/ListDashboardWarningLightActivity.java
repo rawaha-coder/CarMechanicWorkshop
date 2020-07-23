@@ -16,15 +16,20 @@ import com.automobilegt.carmechanicworkshop.data.GreenSymbolsData;
 import com.automobilegt.carmechanicworkshop.data.OrangeSymbolsData;
 import com.automobilegt.carmechanicworkshop.data.RedSymbolsData;
 import com.automobilegt.carmechanicworkshop.model.WarningLight;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.ArrayList;
 
 import static com.automobilegt.carmechanicworkshop.model.WarningLight.CreateWarningLightArrayList;
+import static com.google.android.gms.ads.AdSize.BANNER;
 
 public class ListDashboardWarningLightActivity extends AppCompatActivity {
 
     private static final int COLOR_REQUEST_CODE = 100;
 
+    private AdView mAdView;
     private ArrayList<WarningLight> mWarningLightArrayList;
     private Integer[] iconId;
     private String[] itemName;
@@ -85,6 +90,12 @@ public class ListDashboardWarningLightActivity extends AppCompatActivity {
                     }
                 })
         );
+
+        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+        MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
     }
 

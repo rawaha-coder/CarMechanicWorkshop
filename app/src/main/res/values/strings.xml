@@ -46,4 +46,5 @@
     <string name="car_model_video_shared">Car Model</string>
     <string name="car_year_video_shared">Car Year</string>
     <string name="car_link_video_shared">Video Link</string>
+    <string name="symbol_image">symbol image</string>
 </resources>

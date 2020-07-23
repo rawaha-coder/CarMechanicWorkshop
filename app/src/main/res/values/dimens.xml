@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--main activity texts-->
-    <dimen name="main_button_textSize">20sp</dimen>
-    <dimen name="main_button_marginTop">24dp</dimen>
+    <dimen name="main_button_textSize">24sp</dimen>
+    <dimen name="main_button_marginTop">36dp</dimen>
     <dimen name="main_button_marginStart">16dp</dimen>
     <dimen name="main_button_marginEnd">16dp</dimen>
+    <dimen name="main_btn_paddingtopbottom">16dp</dimen>
 </resources>

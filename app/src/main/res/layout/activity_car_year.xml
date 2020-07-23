@@ -8,10 +8,17 @@
     android:background="@android:color/black"
     tools:context=".CarYearActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recy_view_model_year_activity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="65dp"
         android:scrollbars="vertical"
         android:background="@android:color/black" />
 
@@ -24,4 +31,14 @@
         android:indeterminateDrawable="@drawable/cmw_progress_bar"
         />
 
+    </LinearLayout>
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
 </RelativeLayout>

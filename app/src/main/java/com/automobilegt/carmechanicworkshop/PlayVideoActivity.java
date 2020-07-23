@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.automobilegt.carmechanicworkshop.model.CarVideoModel;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 public class PlayVideoActivity extends AppCompatActivity {
 
@@ -19,11 +22,17 @@ public class PlayVideoActivity extends AppCompatActivity {
     private String videoLink;
 
 
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_video);
+
+        MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         mVideo = (CarVideoModel) getIntent().getSerializableExtra("video");
         videoLink = getIntent().getStringExtra("link");
