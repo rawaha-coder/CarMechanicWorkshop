@@ -25,6 +25,18 @@ public class CarBrandModel implements Serializable {
         mFolderLink =  MECHANIC_WORKSHOP_FOLDER + carBrandName + "/model";
     }
 
+    public void setCarBrandName(String carBrandName) {
+        mCarBrandName = carBrandName;
+    }
+
+    public void setCarBrandLogo(int carBrandLogo) {
+        mCarBrandLogo = carBrandLogo;
+    }
+
+    public void setFolderLink(String folderLink) {
+        mFolderLink = folderLink;
+    }
+
     public String getCarBrandName() {
         return mCarBrandName;
     }

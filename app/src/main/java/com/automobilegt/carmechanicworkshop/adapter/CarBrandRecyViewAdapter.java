@@ -11,19 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.automobilegt.carmechanicworkshop.R;
-import com.automobilegt.carmechanicworkshop.model.CarBrandModel;
+import com.automobilegt.carmechanicworkshop.model.CarBrand;
 
 import java.util.ArrayList;
 
-import static com.automobilegt.carmechanicworkshop.data.CarBrandData.BRAND_LOGO;
-import static com.automobilegt.carmechanicworkshop.data.CarBrandData.BRAND_NAME;
-
 public class CarBrandRecyViewAdapter extends RecyclerView.Adapter<CarBrandRecyViewAdapter.ViewHolder> {
 
-    private ArrayList<CarBrandModel> mCarBrandModels;
+    private ArrayList<CarBrand> mCarBrandList;
 
-    public CarBrandRecyViewAdapter(ArrayList<CarBrandModel> carBrandModels) {
-        mCarBrandModels = carBrandModels;
+    public CarBrandRecyViewAdapter(ArrayList<CarBrand> carBrand) {
+        mCarBrandList = carBrand;
     }
 
     @NonNull
@@ -41,7 +38,7 @@ public class CarBrandRecyViewAdapter extends RecyclerView.Adapter<CarBrandRecyVi
     @Override
     public void onBindViewHolder(@NonNull CarBrandRecyViewAdapter.ViewHolder holder, final int position) {
 
-        CarBrandModel carMaker = mCarBrandModels.get(position);
+        CarBrand carMaker = mCarBrandList.get(position);
 
 
         ImageView brandLogo = holder.mCarBrandLogoImageView;
@@ -57,7 +54,7 @@ public class CarBrandRecyViewAdapter extends RecyclerView.Adapter<CarBrandRecyVi
 
     @Override
     public int getItemCount() {
-        return mCarBrandModels.size();
+        return mCarBrandList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
