@@ -19,8 +19,7 @@
         android:layout_height="match_parent"
         android:paddingBottom="65dp"
         android:scrollbars="vertical"
-        android:background="@android:color/black"
-        />
+        android:background="@android:color/black" />
     </LinearLayout>
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
