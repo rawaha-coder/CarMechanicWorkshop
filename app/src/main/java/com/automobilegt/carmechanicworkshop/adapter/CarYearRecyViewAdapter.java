@@ -11,17 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.automobilegt.carmechanicworkshop.R;
-import com.automobilegt.carmechanicworkshop.model.CarModelModel;
-import com.automobilegt.carmechanicworkshop.model.CarYearModel;
+import com.automobilegt.carmechanicworkshop.model.CarYear;
 
 import java.util.ArrayList;
 
 public class CarYearRecyViewAdapter extends RecyclerView.Adapter<CarYearRecyViewAdapter.ViewHolder> {
 
-    private ArrayList<CarYearModel> mCarYearList;
-    private int mLogoResId;
+    private ArrayList<CarYear> mCarYearList;
 
-    public CarYearRecyViewAdapter(ArrayList<CarYearModel> carYearList) {
+    public CarYearRecyViewAdapter(ArrayList<CarYear> carYearList) {
         mCarYearList = carYearList;
     }
 
@@ -38,7 +36,7 @@ public class CarYearRecyViewAdapter extends RecyclerView.Adapter<CarYearRecyView
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        CarYearModel carYear = mCarYearList.get(position);
+        CarYear carYear = mCarYearList.get(position);
 
         ImageView brandLogo = holder.mCarBrandLogoImageView;
         brandLogo.setImageResource(carYear.getCarModelLogo());

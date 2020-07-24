@@ -11,16 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.automobilegt.carmechanicworkshop.R;
-import com.automobilegt.carmechanicworkshop.model.CarModelModel;
+import com.automobilegt.carmechanicworkshop.model.CarModel;
 
 import java.util.ArrayList;
 
 public class CarModelRecyViewAdapter extends RecyclerView.Adapter<CarModelRecyViewAdapter.ViewHolder> {
 
-    private ArrayList<CarModelModel> mCarModelList;
-    private int mLogoResId;
+    private ArrayList<CarModel> mCarModelList;
 
-    public CarModelRecyViewAdapter(ArrayList<CarModelModel> carModelList) {
+    public CarModelRecyViewAdapter(ArrayList<CarModel> carModelList) {
         mCarModelList = carModelList;
     }
 
@@ -37,7 +36,7 @@ public class CarModelRecyViewAdapter extends RecyclerView.Adapter<CarModelRecyVi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        CarModelModel carModel = mCarModelList.get(position);
+        CarModel carModel = mCarModelList.get(position);
 
         ImageView brandLogo = holder.mCarBrandLogoImageView;
         brandLogo.setImageResource(carModel.getCarModelLogo());
