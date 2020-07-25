@@ -1,31 +1,26 @@
 package com.automobilegt.carmechanicworkshop;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.text.HtmlCompat;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.text.HtmlCompat;
+
 public class FirstInstall extends AppCompatActivity {
 
-    private CheckBox checkBox;
+    private static final String TAG = "firstinstall";
 
-    public void getStarted(View view) {
-        if (checkBox.isChecked()) {
-            Intent intent = new Intent(FirstInstall.this, MainActivity.class);
-            intent.putExtra("installed", true);
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "Check the box to get Started", Toast.LENGTH_SHORT).show();
-        }
-    }
+    private CheckBox checkBox;
+    private Button startButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +31,22 @@ public class FirstInstall extends AppCompatActivity {
         actionBar.hide();
 
         checkBox = findViewById(R.id.agree_checkBox);
+        startButton = findViewById(R.id.get_started_button);
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checkBox.isChecked()) {
+                    Log.d(TAG, "Accept conditios, go back to main Activity");
+                    Intent intent = new Intent(FirstInstall.this, MainActivity.class);
+                    intent.putExtra("installed", true);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    Toast.makeText(FirstInstall.this, "Check the box to get Started", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
