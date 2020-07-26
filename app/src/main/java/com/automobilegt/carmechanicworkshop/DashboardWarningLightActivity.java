@@ -1,13 +1,14 @@
 package com.automobilegt.carmechanicworkshop;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.text.HtmlCompat;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.text.HtmlCompat;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -17,6 +18,7 @@ public class DashboardWarningLightActivity extends AppCompatActivity {
 
     private AdView mAdView;
     private String color;
+
     public void warningLightSymbols(View view) {
         if(view.getTag().toString().equals("red")){
             Intent intent = new Intent(getApplicationContext(), ListDashboardWarningLightActivity.class );
@@ -35,10 +37,10 @@ public class DashboardWarningLightActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_dashboard_warning_light);
 
         setTitle("Warning Light Color");
@@ -51,7 +53,7 @@ public class DashboardWarningLightActivity extends AppCompatActivity {
             textView.setText(Html.fromHtml(getString(R.string.dashboard_warning_light_text)));
         }
 
-        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+        // AdMob
         MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();

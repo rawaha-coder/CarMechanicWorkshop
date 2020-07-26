@@ -2,7 +2,6 @@ package com.automobilegt.carmechanicworkshop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -115,14 +114,11 @@ public class VideoListActivity extends AppCompatActivity {
                                     try {
                                         JSONObject jsonObject = response.getJSONObject(i);
                                         mVideoList.add(new CarVideoModel(jsonObject.getString("title"), jsonObject.getString("description"), jsonObject.getString("link")));
-                                        Log.d(TAG, jsonObject.getString("title") + " from AutomobileGT");
                                     } catch (JSONException e) {
                                         e.printStackTrace();
-                                        Log.d(TAG, "JSONException Error");
                                     }
                                 }
                                 adapter.notifyDataSetChanged();
-                                Log.d(TAG, "Hide progressbar and adapter.notifyDataSetChanged");
                                 if(mVideoList != null){
                                     mProgressBar.setVisibility(View.INVISIBLE);
                                 }
@@ -130,7 +126,6 @@ public class VideoListActivity extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, error.getMessage() + "Error from AutomobileGt link: " + AUTOMOBILEGT_URL + COLLECTION + "/" + brandFolder + "/" + modelFolder + "/" + year + ".json");
                         if(error != null){
                             getVideoList();
                         }
@@ -182,18 +177,14 @@ public class VideoListActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // check that it is the SecondActivity with an OK result
         if (requestCode == VIDEO_REQUEST_CODE) {
             if (resultCode == RESULT_OK) { // Activity.RESULT_OK
-
-                // get String data from Intent
+                // get data from Intent
                 year = data.getStringExtra("year");
                 brandName = data.getStringExtra("brand");
                 modelName = data.getStringExtra("model");
@@ -208,19 +199,14 @@ public class VideoListActivity extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()){
-
                     String title =  snapshot.getString("title");
                     String description =  snapshot.getString("description");
                     String link =  snapshot.getString("link");
-
                     mVideoList.add(new CarVideoModel(title, description, link));
-                    Log.d(TAG, snapshot.getString("title") + " from firestore");
-
                 }
                 adapter.notifyDataSetChanged();
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
-
 }

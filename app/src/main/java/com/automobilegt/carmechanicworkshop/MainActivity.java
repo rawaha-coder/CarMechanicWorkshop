@@ -67,11 +67,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // check that it is the SecondActivity with an OK result
         if (requestCode == FIRST_INSTAL_REQUEST_CODE) {
             if (resultCode == RESULT_OK) { // Activity.RESULT_OK
-                // get String data from Intent
+                // get boolean data from Intent
                 firstInstallation = data.getBooleanExtra("installed", true);
                 sharedPreferences.edit().putBoolean("installed", firstInstallation).apply();
             }
@@ -106,16 +104,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "Welcome to Car Mechanic Workshop App");
+                            // Sign in Anonymously success
                             FirebaseUser user = mAuth.getCurrentUser();
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            // If sign in Anonymously fails
                             Toast.makeText(MainActivity.this, "Connection to database failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
                         // [START_EXCLUDE]
                         // [END_EXCLUDE]
                     }

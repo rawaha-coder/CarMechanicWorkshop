@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -37,7 +36,6 @@ public class FirstInstall extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkBox.isChecked()) {
-                    Log.d(TAG, "Accept conditios, go back to main Activity");
                     Intent intent = new Intent(FirstInstall.this, MainActivity.class);
                     intent.putExtra("installed", true);
                     setResult(RESULT_OK, intent);

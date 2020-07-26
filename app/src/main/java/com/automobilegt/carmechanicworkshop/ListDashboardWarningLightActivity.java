@@ -1,14 +1,14 @@
 package com.automobilegt.carmechanicworkshop;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 
 import com.automobilegt.carmechanicworkshop.adapter.WarningLightRecyViewAdapter;
 import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
@@ -23,7 +23,6 @@ import com.google.android.gms.ads.MobileAds;
 import java.util.ArrayList;
 
 import static com.automobilegt.carmechanicworkshop.model.WarningLight.CreateWarningLightArrayList;
-import static com.google.android.gms.ads.AdSize.BANNER;
 
 public class ListDashboardWarningLightActivity extends AppCompatActivity {
 
@@ -91,7 +90,7 @@ public class ListDashboardWarningLightActivity extends AppCompatActivity {
                 })
         );
 
-        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+        // AdMob
         MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();

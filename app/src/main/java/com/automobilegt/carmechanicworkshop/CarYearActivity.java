@@ -57,9 +57,7 @@ public class CarYearActivity extends AppCompatActivity {
     private int logoId;
     private String brandFolder;
     private String modelFolder;
-
     private ProgressBar mProgressBar;
-
     private ArrayList<CarYear> mCarYearList;
     private CarYearRecyViewAdapter adapter;
     private RecyclerView recyViewCarModelYear;
@@ -113,10 +111,8 @@ public class CarYearActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 try {
                                     mCarYearList.add(new CarYear(response.getString(i), logoId));
-                                    Log.d(TAG, response.getString(i) + " from AutomobileGt");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    Log.d(TAG, e.getMessage().toString());
                                 }
                             }
                             adapter.notifyDataSetChanged();
@@ -128,7 +124,6 @@ public class CarYearActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d(TAG, error.getMessage() + " from AutomobileGt: " + AUTOMOBILEGT_URL + COLLECTION + "/" + brandFolder + "/" + modelFolder + "/" + CAR_YEAR + ".json");
                     if(error != null){
                         getYearList();
                     }
@@ -137,7 +132,6 @@ public class CarYearActivity extends AppCompatActivity {
             mRequestQueue.add(jsonArrayRequest);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d(TAG, "Connect Fail");
         }
 
         recyViewCarModelYear = findViewById(R.id.recy_view_model_year_activity);
@@ -184,11 +178,8 @@ public class CarYearActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // check that it is the SecondActivity with an OK result
         if (requestCode == CAR_YEAR_REQUEST_CODE) {
             if (resultCode == RESULT_OK) { // Activity.RESULT_OK
-
                 // get String data from Intent
                 brandName = data.getStringExtra("brand");
                 modelName = data.getStringExtra("model");
@@ -207,7 +198,6 @@ public class CarYearActivity extends AppCompatActivity {
                             List<String> list = (List<String>) documentSnapshot.get("list");
                             for(int i = 0; i < list.size(); i++){
                                 mCarYearList.add(new CarYear(list.get(i), logoId));
-                                Log.d(TAG, list.get(i) + " from Firebase Firestore");
                             }
                         }
                         adapter.notifyDataSetChanged();

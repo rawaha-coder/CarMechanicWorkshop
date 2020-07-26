@@ -2,7 +2,6 @@ package com.automobilegt.carmechanicworkshop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -51,9 +50,7 @@ public class CarModelActivity extends AppCompatActivity {
     private String brandFolder;
     private String brandName;
     private int logoId;
-    //private CarBrand brand;
     private ProgressBar mProgressBar;
-
     private ArrayList<CarModel> mCarModelList;
     private CarModelRecyViewAdapter adapter;
     private RecyclerView recyViewCarBrandModel;
@@ -103,10 +100,8 @@ public class CarModelActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 try {
                                     mCarModelList.add(new CarModel(response.getString(i), logoId));
-                                    Log.d(TAG, response.getString(i) + " from AutomobileGt");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    Log.d(TAG, e.getMessage().toString());
                                 }
                             }
                             adapter.notifyDataSetChanged();
@@ -117,7 +112,6 @@ public class CarModelActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d(TAG, error.getMessage() + " from AutomobileGt: " + AUTOMOBILEGT_URL + COLLECTION + "/" + brandFolder + "/" + CAR_MODEL + ".json");
                     if(error != null){
                         getModelList();
                     }
@@ -126,7 +120,6 @@ public class CarModelActivity extends AppCompatActivity {
             mRequestQueue.add(jsonArrayRequest);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d(TAG, "Connect Fail");
         }
 
 
@@ -158,11 +151,8 @@ public class CarModelActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // check that it is the SecondActivity with an OK result
         if (requestCode == CAR_MODEL_REQUEST_CODE) {
             if (resultCode == RESULT_OK) { // Activity.RESULT_OK
-
                 // get String data from Intent
                 brandName = data.getStringExtra("brand");
                 logoId = data.getIntExtra("logo", R.drawable.audi);
@@ -179,7 +169,6 @@ public class CarModelActivity extends AppCompatActivity {
                             List<String> list = (List<String>) documentSnapshot.get("list");
                             for(int i = 0; i < list.size(); i++){
                                 mCarModelList.add(new CarModel(list.get(i), logoId));
-                                Log.d(TAG, list.get(i) + " from Firebase Firestore");
                             }
                         }
                         adapter.notifyDataSetChanged();
@@ -192,5 +181,4 @@ public class CarModelActivity extends AppCompatActivity {
             }
         });
     }
-
 }
