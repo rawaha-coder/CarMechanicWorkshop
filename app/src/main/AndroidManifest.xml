@@ -83,14 +83,6 @@
                 android:value="com.automobilegt.carmechanicworkshop.MainActivity" />
         </activity>
         <activity
-            android:name=".AskMechanicActivity"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.automobilegt.carmechanicworkshop.MainActivity" />
-        </activity>
-        <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>

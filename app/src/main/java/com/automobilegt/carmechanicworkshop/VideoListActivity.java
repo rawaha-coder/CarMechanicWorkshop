@@ -47,7 +47,6 @@ import static com.automobilegt.carmechanicworkshop.util.Constants.COLLECTION;
 public class VideoListActivity extends AppCompatActivity {
 
     private static final int VIDEO_REQUEST_CODE = 302;
-    private static final String TAG = "carvideolistactivity";
 
     private AdView mAdView;
 
@@ -99,7 +98,7 @@ public class VideoListActivity extends AppCompatActivity {
         modelFolder = modelFolder.replaceAll("\\s","");
 
 
-        setTitle(year + " Vidoes List");
+        setTitle(brandName + " " + modelName + " " + year + " Repair Vidoes");
 
         mRequestQueue = Volley.newRequestQueue(this);
         mVideoList = new ArrayList<CarVideoModel>();
@@ -155,7 +154,6 @@ public class VideoListActivity extends AppCompatActivity {
                         intentVideo.putExtra("logo", logoId);
                         startActivityForResult(intentVideo, VIDEO_REQUEST_CODE);
                     }
-
                     @Override public void onLongItemClick(View view, int position) {
                         // do whatever
                     }

@@ -44,7 +44,6 @@ import static com.automobilegt.carmechanicworkshop.util.Constants.COLLECTION;
 public class CarModelActivity extends AppCompatActivity {
 
     private static final int CAR_MODEL_REQUEST_CODE = 300;
-    private static final String TAG = "carmodelactivity";
 
     private AdView mAdView;
     private String brandFolder;

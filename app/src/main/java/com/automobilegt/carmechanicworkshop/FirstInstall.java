@@ -16,8 +16,6 @@ import androidx.core.text.HtmlCompat;
 
 public class FirstInstall extends AppCompatActivity {
 
-    private static final String TAG = "firstinstall";
-
     private CheckBox checkBox;
     private Button startButton;
 

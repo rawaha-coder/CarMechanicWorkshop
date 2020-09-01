@@ -3,7 +3,6 @@ package com.automobilegt.carmechanicworkshop;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private AdView mAdView;
 
     private static final String SETTING_VALUES_ID = "setting_preferences";
-    private static final String TAG = "EmailPassword";
     SharedPreferences sharedPreferences;
     private boolean firstInstallation = false;
 
@@ -46,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         firstInstallation = sharedPreferences.getBoolean("installed", false);
 
         if(!firstInstallation){
-                Log.d(TAG, "go to firstinstal activity");
                 Intent intent = new Intent(MainActivity.this, FirstInstall.class);
                 startActivityForResult(intent, FIRST_INSTAL_REQUEST_CODE);
         }
@@ -92,10 +89,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void askMechanic(View view) {
-        Intent intent = new Intent(getApplicationContext(), AskMechanicActivity.class);
-        startActivity(intent);
-    }
 
     private void signInAnonymously() {
         // [START signin_anonymously]

@@ -2,7 +2,6 @@ package com.automobilegt.carmechanicworkshop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -48,7 +47,6 @@ import static com.automobilegt.carmechanicworkshop.util.Constants.COLLECTION;
 public class CarYearActivity extends AppCompatActivity {
 
     private static final int CAR_YEAR_REQUEST_CODE = 301;
-    private static final String TAG = "caryearactivity";
 
     private AdView mAdView;
 
@@ -96,8 +94,7 @@ public class CarYearActivity extends AppCompatActivity {
         modelFolder = modelName.toLowerCase();
         modelFolder = modelFolder.replaceAll("\\s","");
 
-
-        setTitle(modelName + " Years List");
+        setTitle(brandName + " " + modelName + " Years List");
 
         mRequestQueue = Volley.newRequestQueue(this);
         mCarYearList = new ArrayList<CarYear>();
@@ -116,7 +113,6 @@ public class CarYearActivity extends AppCompatActivity {
                                 }
                             }
                             adapter.notifyDataSetChanged();
-                            Log.d(TAG, "Hide progressbar");
                             if(mCarYearList != null){
                                 mProgressBar.setVisibility(View.INVISIBLE);
                             }

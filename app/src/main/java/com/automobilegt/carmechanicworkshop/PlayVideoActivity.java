@@ -18,8 +18,6 @@ public class PlayVideoActivity extends AppCompatActivity {
 
     private AdView mAdView;
 
-    private static final String TAG = "carplayvideoactivity";
-
     private CarVideoModel mVideo;
     private TextView videoTitleTextView;
     private TextView videoMessageTextView;

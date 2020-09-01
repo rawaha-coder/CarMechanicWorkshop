@@ -42,8 +42,6 @@ import static com.automobilegt.carmechanicworkshop.util.Constants.COLLECTION;
 
 public class CarBrandActivity extends AppCompatActivity {
 
-    private static final String TAG = "carbrandactivity";
-
     private AdView mAdView;
     private ArrayList<CarBrand> mCarBrandList;
     private RecyclerView recyViewCarBrand;
