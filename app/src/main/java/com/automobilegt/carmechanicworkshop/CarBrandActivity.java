@@ -2,7 +2,6 @@ package com.automobilegt.carmechanicworkshop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -43,22 +42,16 @@ import static com.automobilegt.carmechanicworkshop.util.Constants.COLLECTION;
 
 public class CarBrandActivity extends AppCompatActivity {
 
-    private static final String TAG = "carbrandactivity";
-
     private AdView mAdView;
-
     private ArrayList<CarBrand> mCarBrandList;
     private RecyclerView recyViewCarBrand;
     private CarBrandRecyViewAdapter adapter;
     private ProgressBar mProgressBar;
-
     private RequestQueue mRequestQueue;
 
     // Access a Cloud Firestore instance from your Activity
     private FirebaseFirestore mFirebaseFirestore;
     private DocumentReference mDocumentReference;
-
-
 
 
     @Override
@@ -92,14 +85,11 @@ public class CarBrandActivity extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 try {
                                     mCarBrandList.add(new CarBrand(response.getString(i)));
-                                    Log.d(TAG, response.getString(i) + " from AutomobileGt");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    Log.d(TAG, e.getMessage().toString());
                                 }
                             }
                             adapter.notifyDataSetChanged();
-                            Log.d(TAG, "Hide progressbar");
                             if(mCarBrandList != null){
                                 mProgressBar.setVisibility(View.INVISIBLE);
                             }
@@ -107,7 +97,6 @@ public class CarBrandActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d(TAG, error.getMessage() + " from AutomobileGt");
                     if(error != null){
                         getBrandList();
                     }
@@ -116,7 +105,6 @@ public class CarBrandActivity extends AppCompatActivity {
             mRequestQueue.add(jsonArrayRequest);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d(TAG, "Connect Fail");
         }
 
         recyViewCarBrand = findViewById(R.id.recy_view_car_brand_activity);
@@ -152,7 +140,6 @@ public class CarBrandActivity extends AppCompatActivity {
                             List<String> list = (List<String>) documentSnapshot.get("list");
                             for(int i = 0; i < list.size(); i++){
                                 mCarBrandList.add(new CarBrand(list.get(i)));
-                                Log.d(TAG, list.get(i) + " from Firebase Firestore");
                             }
                         }
                         adapter.notifyDataSetChanged();

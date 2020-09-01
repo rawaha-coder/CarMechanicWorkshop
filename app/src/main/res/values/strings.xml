@@ -19,10 +19,6 @@
     <string name="sample_aula_and_privacy_policy"><![CDATA[<p>By using this software, you agree with our <a href="https://agt-app.automobilegt.com/PrivacyPolicy.html" color="#E41A6E">Privacy Policy</a> and with our <a href="https://agt-app.automobilegt.com/TermsAndConditions.html" color="#E41A6E">Terms and Conditions</a> of downloading or using the app.</p>]]></string>
     <string name="get_started">Get Started</string>
 
-    <!--AskMechanic activity texts-->
-    <string name="askMechanicMessage">Get your automotive-related questions answered by a professional mechanic online.\n\n Tell us about your car model and the issue you have with your car and we will try to help you with your car as fast as possible.\n\n The mechanics are certified and ready to help you with your issues 24/7 online.\n
-    </string>
-    <string name="askMechanicLink">Click here to ask a mechanic</string>
 
     <!--DashboardWarningLight activity texts-->
     <string name="red_warning_light_button">red warning light symbols</string>

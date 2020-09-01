@@ -3,7 +3,6 @@ package com.automobilegt.carmechanicworkshop;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private AdView mAdView;
 
     private static final String SETTING_VALUES_ID = "setting_preferences";
-    private static final String TAG = "EmailPassword";
     SharedPreferences sharedPreferences;
     private boolean firstInstallation = false;
 
@@ -46,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         firstInstallation = sharedPreferences.getBoolean("installed", false);
 
         if(!firstInstallation){
-                Log.d(TAG, "go to firstinstal activity");
                 Intent intent = new Intent(MainActivity.this, FirstInstall.class);
                 startActivityForResult(intent, FIRST_INSTAL_REQUEST_CODE);
         }
@@ -67,11 +64,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // check that it is the SecondActivity with an OK result
         if (requestCode == FIRST_INSTAL_REQUEST_CODE) {
             if (resultCode == RESULT_OK) { // Activity.RESULT_OK
-                // get String data from Intent
+                // get boolean data from Intent
                 firstInstallation = data.getBooleanExtra("installed", true);
                 sharedPreferences.edit().putBoolean("installed", firstInstallation).apply();
             }
@@ -94,10 +89,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void askMechanic(View view) {
-        Intent intent = new Intent(getApplicationContext(), AskMechanicActivity.class);
-        startActivity(intent);
-    }
 
     private void signInAnonymously() {
         // [START signin_anonymously]
@@ -106,16 +97,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "Welcome to Car Mechanic Workshop App");
+                            // Sign in Anonymously success
                             FirebaseUser user = mAuth.getCurrentUser();
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            // If sign in Anonymously fails
                             Toast.makeText(MainActivity.this, "Connection to database failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
                         // [START_EXCLUDE]
                         // [END_EXCLUDE]
                     }

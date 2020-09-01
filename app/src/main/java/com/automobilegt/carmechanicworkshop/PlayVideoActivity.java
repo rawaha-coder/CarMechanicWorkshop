@@ -3,7 +3,6 @@ package com.automobilegt.carmechanicworkshop;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -18,8 +17,6 @@ import com.google.android.gms.ads.MobileAds;
 public class PlayVideoActivity extends AppCompatActivity {
 
     private AdView mAdView;
-
-    private static final String TAG = "carplayvideoactivity";
 
     private CarVideoModel mVideo;
     private TextView videoTitleTextView;
@@ -49,8 +46,6 @@ public class PlayVideoActivity extends AppCompatActivity {
         year = getIntent().getStringExtra("year");
         logoId = getIntent().getIntExtra("logo", R.drawable.audi);
 
-        Log.d(TAG, "get Intent values: " + brandName + ", " + modelName + ", " + year);
-
         videoTitleTextView = findViewById(R.id.video_title_text_view);
         videoMessageTextView = findViewById(R.id.video_message_text_view);
 
@@ -78,6 +73,5 @@ public class PlayVideoActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 }

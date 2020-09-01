@@ -52,22 +52,7 @@
             android:textSize="@dimen/main_button_textSize"
             android:textStyle="bold"/>
 
-        <Button
-            android:id="@+id/ask_mechanic_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/main_button_marginStart"
-            android:layout_marginTop="@dimen/main_button_marginTop"
-            android:layout_marginEnd="@dimen/main_button_marginEnd"
-            android:paddingTop="@dimen/main_btn_paddingtopbottom"
-            android:paddingBottom="@dimen/main_btn_paddingtopbottom"
-            android:background="@drawable/main_button_state"
-            android:fontFamily="@string/main_button_font_family"
-            android:onClick="askMechanic"
-            android:text="@string/ask_mechanic_button"
-            android:textColor="@color/mainButtonTextColor"
-            android:textSize="@dimen/main_button_textSize"
-            android:textStyle="bold"/>
+
 
     </LinearLayout>
 
