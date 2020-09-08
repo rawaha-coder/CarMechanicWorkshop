@@ -48,7 +48,7 @@ public class VideoListRecyViewAdapter extends RecyclerView.Adapter<VideoListRecy
         videoTitle.setText(videoModel.getVideoTitle());
 
         ImageView playArrow = holder.mPlayArrowImageView;
-        playArrow.setImageResource(R.drawable.play_arrow_black);
+        playArrow.setImageResource(R.drawable.ic_play_arrow);
     }
 
     @Override
