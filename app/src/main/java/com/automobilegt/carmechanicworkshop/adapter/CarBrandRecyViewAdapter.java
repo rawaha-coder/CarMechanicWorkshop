@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.automobilegt.carmechanicworkshop.R;
 import com.automobilegt.carmechanicworkshop.model.CarBrand;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CarBrandRecyViewAdapter extends RecyclerView.Adapter<CarBrandRecyViewAdapter.ViewHolder> {
 
-    private ArrayList<CarBrand> mCarBrandList;
+    private List<CarBrand> mCarBrandList;
 
-    public CarBrandRecyViewAdapter(ArrayList<CarBrand> carBrand) {
+    public CarBrandRecyViewAdapter(List<CarBrand> carBrand) {
         mCarBrandList = carBrand;
     }
 

@@ -43,4 +43,7 @@
     <string name="car_year_video_shared">Car Year</string>
     <string name="car_link_video_shared">Video Link</string>
     <string name="symbol_image">symbol image</string>
+
+    <!--Next Version String V3-->
+    <string name="no_internet_connection">No internet connection</string>
 </resources>

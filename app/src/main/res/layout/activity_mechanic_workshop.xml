@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MechanicWorkshopActivity">
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:textAppearance="?android:textAppearanceMedium" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_margin="4dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/v3_btn_mechanic_workshop"
+            style="@style/v3_mainButtonStyle"
+            android:onClick="getCarMaker"
+            android:text="@string/mechanic_workshop_button" />
+
+        <Button
+            android:id="@+id/v3_btn_car_dashboard"
+            style="@style/v3_mainButtonStyle"
+            android:onClick="getDashboard"
+            android:text="@string/dashboard_lights_button" />
+
+    </LinearLayout>
+
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-2666553857909586/6834299299">
+    </com.google.android.gms.ads.AdView>
+
+</RelativeLayout>

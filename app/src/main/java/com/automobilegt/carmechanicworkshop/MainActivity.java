@@ -110,4 +110,9 @@ public class MainActivity extends AppCompatActivity {
                 });
         // [END signin_anonymously]
     }
+
+    public void nextVersion(View view) {
+        Intent intent = new Intent(getApplicationContext(), MechanicWorkshopActivity.class);
+        startActivity(intent);
+    }
 }

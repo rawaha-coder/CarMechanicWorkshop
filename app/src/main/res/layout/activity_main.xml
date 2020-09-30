@@ -52,6 +52,12 @@
             android:textSize="@dimen/main_button_textSize"
             android:textStyle="bold"/>
 
+        <Button
+            android:id="@+id/btn_next_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="nextVersion"
+            android:text="Next Version" />
 
 
     </LinearLayout>
