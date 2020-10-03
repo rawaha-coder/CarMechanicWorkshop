@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.automobilegt.carmechanicworkshop.adapter.RVCarAdapter;
 import com.automobilegt.carmechanicworkshop.interfaces.ListItemClickListener;
 import com.automobilegt.carmechanicworkshop.model.Car;
@@ -53,8 +51,6 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
     private FirebaseFirestore mFirebaseFirestore;
     private DocumentReference mDocumentReference;
 
-    private RequestQueue mRequestQueue;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +82,6 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
 
         setTitle(brandName + " " + modelName);
 
-        mRequestQueue = Volley.newRequestQueue(this);
         mYearList = new ArrayList<>();
         requestUrl = AUTOMOBILEGT_URL + COLLECTION + "/" + brandFolder + "/" + modelFolder + "/" + CAR_YEAR + ".json";
 

@@ -11,18 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.automobilegt.carmechanicworkshop.R;
+import com.automobilegt.carmechanicworkshop.interfaces.ListItemClickListener;
 import com.automobilegt.carmechanicworkshop.model.RepairVideo;
 
 import java.util.ArrayList;
 
 public class VideoListRecyViewAdapter extends RecyclerView.Adapter<VideoListRecyViewAdapter.ViewHolder> {
-
+    private ListItemClickListener mListItemClickListener;
     private ArrayList<RepairVideo> mCarVideoList;
     private int mLogoResId;
 
-    public VideoListRecyViewAdapter(ArrayList<RepairVideo> carModelList, int logoResId) {
+    public VideoListRecyViewAdapter(ListItemClickListener listItemClickListener, ArrayList<RepairVideo> carModelList, int logoResId) {
         mCarVideoList = carModelList;
         mLogoResId = logoResId;
+        mListItemClickListener = listItemClickListener;
     }
 
     @NonNull
@@ -56,7 +58,7 @@ public class VideoListRecyViewAdapter extends RecyclerView.Adapter<VideoListRecy
         return mCarVideoList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView mCarBrandLogoImageView;
         TextView mVideoTitleTextView;
@@ -67,6 +69,12 @@ public class VideoListRecyViewAdapter extends RecyclerView.Adapter<VideoListRecy
             mCarBrandLogoImageView = itemView.findViewById(R.id.adapter_car_brand_logo);
             mVideoTitleTextView = itemView.findViewById(R.id.adapter_car_video_name);
             mPlayArrowImageView = itemView.findViewById(R.id.adapter_play_arrow_model);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            mListItemClickListener.onListItemClick(getAdapterPosition());
         }
     }
 

@@ -3,9 +3,11 @@ package com.automobilegt.carmechanicworkshop.controller;
 import android.text.TextUtils;
 
 import com.automobilegt.carmechanicworkshop.model.Car;
+import com.automobilegt.carmechanicworkshop.model.RepairVideo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -106,6 +108,34 @@ public class RequestQuery {
         return list;
     }
 
+    //method to fetch video list for VideoListActivity
+    public static List<RepairVideo> fetchRepairVideoData(String requestUrl){
+        URL url = createUrl(requestUrl);
+        String jsonResponse = null;
+        try {
+            jsonResponse = makeHttpRequest(url);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return extractVideoListFromJson(jsonResponse);
+    }
+
+    private static List<RepairVideo> extractVideoListFromJson(String jsonResponse) {
+        if (TextUtils.isEmpty(jsonResponse)){
+            return null;
+        }
+        List<RepairVideo> repairVideoList = new ArrayList<>();
+        try {
+            JSONArray response = new JSONArray(jsonResponse);
+            for (int i=0; i<response.length(); i++){
+                JSONObject jsonObject = response.getJSONObject(i);
+                repairVideoList.add(new RepairVideo(jsonObject.getString("title"), jsonObject.getString("description"), jsonObject.getString("link")));
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return repairVideoList;
+    }
 
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
@@ -160,6 +190,4 @@ public class RequestQuery {
         }
         return url;
     }
-
-
 }

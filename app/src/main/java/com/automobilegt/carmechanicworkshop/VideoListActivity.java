@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.automobilegt.carmechanicworkshop.adapter.VideoListRecyViewAdapter;
-import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
+import com.automobilegt.carmechanicworkshop.interfaces.ListItemClickListener;
 import com.automobilegt.carmechanicworkshop.model.RepairVideo;
 import com.automobilegt.carmechanicworkshop.util.RepairVideoLoader;
 import com.google.android.gms.ads.AdRequest;
@@ -36,7 +36,7 @@ import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_YEAR;
 import static com.automobilegt.carmechanicworkshop.util.Constants.COLLECTION;
 
 
-public class VideoListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<RepairVideo>>{
+public class VideoListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<RepairVideo>>, ListItemClickListener {
 
     private static final int VIDEO_REQUEST_CODE = 302;
     private static final int VIDEO_LOADER_ID = 4;
@@ -86,28 +86,13 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
         mVideoList = new ArrayList<>();
 
         RecyclerView recyViewCarVideoList = findViewById(R.id.recy_view_video_list_activity);
-        mAdapter = new VideoListRecyViewAdapter(mVideoList, logoId);
+        mAdapter = new VideoListRecyViewAdapter(this, mVideoList, logoId);
         recyViewCarVideoList.setAdapter(mAdapter);
         recyViewCarVideoList.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
         recyViewCarVideoList.setLayoutManager(new LinearLayoutManager(this));
 
         LoaderManager.getInstance(this).restartLoader(VIDEO_LOADER_ID, null, this);
 
-        recyViewCarVideoList.addOnItemTouchListener(new RecyclerItemClickListener(this, recyViewCarVideoList,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Intent intentVideo = new Intent(getApplicationContext(), PlayVideoActivity.class);
-                        intentVideo.putExtra("video", mVideoList.get(position));
-                        intentVideo.putExtra("year", year);
-                        intentVideo.putExtra("model", modelName);
-                        intentVideo.putExtra("brand", brandName);
-                        intentVideo.putExtra("logo", logoId);
-                        startActivityForResult(intentVideo, VIDEO_REQUEST_CODE);
-                    }
-                    @Override public void onLongItemClick(View view, int position) {
-                        // do whatever
-                    }
-                })
-        );
     }
 
     @Override
@@ -164,19 +149,14 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
         Toast.makeText(this, "No Video found ", Toast.LENGTH_SHORT).show();
     }
 
-//    private void getVideoList(){
-//        mCollectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()){
-//                    String title =  snapshot.getString("title");
-//                    String description =  snapshot.getString("description");
-//                    String link =  snapshot.getString("link");
-//                    mVideoList.add(new RepairVideo(title, description, link));
-//                }
-//                adapter.notifyDataSetChanged();
-//                mProgressBar.setVisibility(View.INVISIBLE);
-//            }
-//        });
-//    }
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        Intent intentVideo = new Intent(getApplicationContext(), PlayVideoActivity.class);
+        intentVideo.putExtra("video", mVideoList.get(clickedItemIndex));
+        intentVideo.putExtra("year", year);
+        intentVideo.putExtra("model", modelName);
+        intentVideo.putExtra("brand", brandName);
+        intentVideo.putExtra("logo", logoId);
+        startActivityForResult(intentVideo, VIDEO_REQUEST_CODE);
+    }
 }

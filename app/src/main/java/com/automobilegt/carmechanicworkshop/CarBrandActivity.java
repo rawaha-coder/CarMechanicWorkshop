@@ -63,7 +63,6 @@ public class CarBrandActivity extends AppCompatActivity implements LoaderManager
         recyViewCarBrand.setLayoutManager(new LinearLayoutManager(this));
     }
 
-
     @NonNull
     @Override
     public Loader<List<Car>> onCreateLoader(int id, @Nullable Bundle args) {

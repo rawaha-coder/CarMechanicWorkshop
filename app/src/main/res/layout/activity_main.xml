@@ -51,9 +51,7 @@
             android:textSize="@dimen/main_button_textSize"
             android:textStyle="bold"/>
 
-
     </LinearLayout>
-
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adView"

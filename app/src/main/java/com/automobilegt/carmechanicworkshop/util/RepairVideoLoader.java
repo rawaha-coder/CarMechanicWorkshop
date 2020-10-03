@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.loader.content.AsyncTaskLoader;
 
-import com.automobilegt.carmechanicworkshop.controller.RepairVideoQuery;
+import com.automobilegt.carmechanicworkshop.controller.RequestQuery;
 
 public class RepairVideoLoader extends AsyncTaskLoader {
     private String mUrl;
@@ -27,6 +27,6 @@ public class RepairVideoLoader extends AsyncTaskLoader {
         if (mUrl == null) {
             return null;
         }
-        return RepairVideoQuery.fetchRepairVideoData(mUrl);
+        return RequestQuery.fetchRepairVideoData(mUrl);
     }
 }
