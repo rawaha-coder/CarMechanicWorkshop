@@ -17,7 +17,7 @@
         >
 
         <ImageView
-            android:id="@+id/adapter_car_model_logo"
+            android:id="@+id/rv_row_car_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
@@ -25,7 +25,7 @@
 
     </androidx.cardview.widget.CardView>
     <TextView
-        android:id="@+id/adapter_car_model_name"
+        android:id="@+id/rv_row_car"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
@@ -39,7 +39,7 @@
         android:textSize="20sp" />
 
     <ImageView
-        android:id="@+id/adapter_play_arrow_model"
+        android:id="@+id/rv_row_play_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

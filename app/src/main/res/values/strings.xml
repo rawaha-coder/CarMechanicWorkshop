@@ -18,6 +18,7 @@
     <string name="automobile_garage_technique">AutomobileGT.com</string>
     <string name="sample_aula_and_privacy_policy"><![CDATA[<p>By using this software, you agree with our <a href="https://agt-app.automobilegt.com/PrivacyPolicy.html" color="#E41A6E">Privacy Policy</a> and with our <a href="https://agt-app.automobilegt.com/TermsAndConditions.html" color="#E41A6E">Terms and Conditions</a> of downloading or using the app.</p>]]></string>
     <string name="get_started">Get Started</string>
+    <string name="accept_started">Check the box to Accept and get Started</string>
 
 
     <!--DashboardWarningLight activity texts-->
@@ -43,4 +44,7 @@
     <string name="car_year_video_shared">Car Year</string>
     <string name="car_link_video_shared">Video Link</string>
     <string name="symbol_image">symbol image</string>
+
+    <!--Next Version String V3-->
+    <string name="no_internet_connection">No internet connection</string>
 </resources>

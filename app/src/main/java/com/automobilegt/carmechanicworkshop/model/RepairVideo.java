@@ -2,13 +2,13 @@ package com.automobilegt.carmechanicworkshop.model;
 
 import java.io.Serializable;
 
-public class CarVideoModel implements Serializable {
+public class RepairVideo implements Serializable {
 
     private String mVideoTitle;
     private String mVideoDescription;
     private String mVideoLink;
 
-    public CarVideoModel(String videoTitle, String videoDescription, String videoLink) {
+    public RepairVideo(String videoTitle, String videoDescription, String videoLink) {
         mVideoTitle = videoTitle;
         mVideoDescription = videoDescription;
         mVideoLink = videoLink;

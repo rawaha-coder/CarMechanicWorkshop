@@ -5,34 +5,26 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
-import com.automobilegt.carmechanicworkshop.adapter.CarYearRecyViewAdapter;
-import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
-import com.automobilegt.carmechanicworkshop.model.CarYear;
+import com.automobilegt.carmechanicworkshop.adapter.RVCarAdapter;
+import com.automobilegt.carmechanicworkshop.interfaces.ListItemClickListener;
+import com.automobilegt.carmechanicworkshop.model.Car;
+import com.automobilegt.carmechanicworkshop.util.CarLoader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,26 +36,20 @@ import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_YEAR;
 import static com.automobilegt.carmechanicworkshop.util.Constants.COLLECTION;
 
 
-public class CarYearActivity extends AppCompatActivity {
+public class CarYearActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Car>>, ListItemClickListener {
 
     private static final int CAR_YEAR_REQUEST_CODE = 301;
-
-    private AdView mAdView;
+    public static final int YEAR_LOADER_ID = 3;
 
     private String brandName;
     private String modelName;
     private int logoId;
-    private String brandFolder;
-    private String modelFolder;
     private ProgressBar mProgressBar;
-    private ArrayList<CarYear> mCarYearList;
-    private CarYearRecyViewAdapter adapter;
-    private RecyclerView recyViewCarModelYear;
-
+    private List<Car> mYearList;
+    private RVCarAdapter mAdapter;
+    private String requestUrl;
     private FirebaseFirestore mFirebaseFirestore;
     private DocumentReference mDocumentReference;
-
-    private RequestQueue mRequestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +58,9 @@ public class CarYearActivity extends AppCompatActivity {
 
         // AdMob initialization
         MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
-        mAdView = findViewById(R.id.adView);
+        AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        adView.loadAd(adRequest);
 
         //fields initialization
         mProgressBar = findViewById(R.id.cmw_progress_bar);
@@ -88,71 +74,58 @@ public class CarYearActivity extends AppCompatActivity {
         mFirebaseFirestore = FirebaseFirestore.getInstance();
         mDocumentReference = mFirebaseFirestore.document(COLLECTION + "/" + CAR_BRAND + "/" + brandName + "/" + CAR_MODEL + "/" + modelName + "/" + CAR_YEAR);
 
-        brandFolder = brandName.toLowerCase();
+        String brandFolder = brandName.toLowerCase();
         brandFolder = brandFolder.replaceAll("\\s","");
 
-        modelFolder = modelName.toLowerCase();
+        String modelFolder = modelName.toLowerCase();
         modelFolder = modelFolder.replaceAll("\\s","");
 
-        setTitle(brandName + " " + modelName + " Years List");
+        setTitle(brandName + " " + modelName);
 
-        mRequestQueue = Volley.newRequestQueue(this);
-        mCarYearList = new ArrayList<CarYear>();
+        mYearList = new ArrayList<>();
+        requestUrl = AUTOMOBILEGT_URL + COLLECTION + "/" + brandFolder + "/" + modelFolder + "/" + CAR_YEAR + ".json";
 
-        try {
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
-                    AUTOMOBILEGT_URL + COLLECTION + "/" + brandFolder + "/" + modelFolder + "/" + CAR_YEAR + ".json", null,
-                    new Response.Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            for (int i = 0; i < response.length(); i++) {
-                                try {
-                                    mCarYearList.add(new CarYear(response.getString(i), logoId));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            adapter.notifyDataSetChanged();
-                            if(mCarYearList != null){
-                                mProgressBar.setVisibility(View.INVISIBLE);
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if(error != null){
-                        getYearList();
-                    }
-                }
-            });
-            mRequestQueue.add(jsonArrayRequest);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        LoaderManager.getInstance(this).restartLoader(YEAR_LOADER_ID, null, this);
 
-        recyViewCarModelYear = findViewById(R.id.recy_view_model_year_activity);
-        adapter = new CarYearRecyViewAdapter(mCarYearList);
-        recyViewCarModelYear.setAdapter(adapter);
+        RecyclerView recyViewCarModelYear = findViewById(R.id.recy_view_model_year_activity);
+        mAdapter = new RVCarAdapter(mYearList, this);
+        recyViewCarModelYear.setAdapter(mAdapter);
         recyViewCarModelYear.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
         recyViewCarModelYear.setLayoutManager(new LinearLayoutManager(this));
 
+    }
 
-        recyViewCarModelYear.addOnItemTouchListener(new RecyclerItemClickListener(this,  recyViewCarModelYear ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Intent intentYear = new Intent(getApplicationContext(), VideoListActivity.class);
-                        intentYear.putExtra("year", mCarYearList.get(position).getCarYear());
-                        intentYear.putExtra("model", modelName);
-                        intentYear.putExtra("brand", brandName);
-                        intentYear.putExtra("logo", logoId);
-                        startActivityForResult(intentYear, CAR_YEAR_REQUEST_CODE);
-                    }
+    @NonNull
+    @Override
+    public Loader<List<Car>> onCreateLoader(int id, @Nullable Bundle args) {
+        return new CarLoader(this, requestUrl, logoId);
+    }
 
-                    @Override public void onLongItemClick(View view, int position) {
-                        // do whatever
-                    }
-                })
-        );
+    @Override
+    public void onLoadFinished(@NonNull Loader<List<Car>> loader, List<Car> data) {
+        mYearList.clear();
+        mProgressBar.setVisibility(View.GONE);
+        if (data != null && !data.isEmpty()){
+            mYearList.addAll(data);
+            mAdapter.notifyDataSetChanged();
+        }else {
+            Toast.makeText(this, "No Year found ", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    @Override
+    public void onLoaderReset(@NonNull Loader<List<Car>> loader) {
+        Toast.makeText(this, "No Year found ", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        Intent intentYear = new Intent(getApplicationContext(), VideoListActivity.class);
+        intentYear.putExtra("year", mYearList.get(clickedItemIndex).getBrandModelYear());
+        intentYear.putExtra("model", modelName);
+        intentYear.putExtra("brand", brandName);
+        intentYear.putExtra("logo", logoId);
+        startActivityForResult(intentYear, CAR_YEAR_REQUEST_CODE);
     }
 
     @Override
@@ -185,25 +158,20 @@ public class CarYearActivity extends AppCompatActivity {
         }
     }
 
-    private void getYearList(){
-        mDocumentReference.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if(documentSnapshot.exists()){
-                            List<String> list = (List<String>) documentSnapshot.get("list");
-                            for(int i = 0; i < list.size(); i++){
-                                mCarYearList.add(new CarYear(list.get(i), logoId));
-                            }
-                        }
-                        adapter.notifyDataSetChanged();
-                        mProgressBar.setVisibility(View.INVISIBLE);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
 
-            }
-        });
-    }
+//        recyViewCarModelYear.addOnItemTouchListener(new RecyclerItemClickListener(this, recyViewCarModelYear,new RecyclerItemClickListener.OnItemClickListener() {
+//                    @Override public void onItemClick(View view, int position) {
+//                        Intent intentYear = new Intent(getApplicationContext(), VideoListActivity.class);
+//                        intentYear.putExtra("year", mYearList.get(position).getBrandModelYear());
+//                        intentYear.putExtra("model", modelName);
+//                        intentYear.putExtra("brand", brandName);
+//                        intentYear.putExtra("logo", logoId);
+//                        startActivityForResult(intentYear, CAR_YEAR_REQUEST_CODE);
+//                    }
+//
+//                    @Override public void onLongItemClick(View view, int position) {
+//                        // do whatever
+//                    }
+//                })
+//        );
 }

@@ -12,18 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.automobilegt.carmechanicworkshop.R;
 import com.automobilegt.carmechanicworkshop.interfaces.ListItemClickListener;
-import com.automobilegt.carmechanicworkshop.model.RepairVideo;
+import com.automobilegt.carmechanicworkshop.model.Car;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class VideoListRecyViewAdapter extends RecyclerView.Adapter<VideoListRecyViewAdapter.ViewHolder> {
+public class RVCarAdapter extends RecyclerView.Adapter<RVCarAdapter.ViewHolder> {
+
+    private List<Car> mCarList;
     private ListItemClickListener mListItemClickListener;
-    private ArrayList<RepairVideo> mCarVideoList;
-    private int mLogoResId;
 
-    public VideoListRecyViewAdapter(ListItemClickListener listItemClickListener, ArrayList<RepairVideo> carModelList, int logoResId) {
-        mCarVideoList = carModelList;
-        mLogoResId = logoResId;
+    public RVCarAdapter(List<Car> carBrandList, ListItemClickListener listItemClickListener) {
+        mCarList = carBrandList;
         mListItemClickListener = listItemClickListener;
     }
 
@@ -32,43 +31,39 @@ public class VideoListRecyViewAdapter extends RecyclerView.Adapter<VideoListRecy
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-
-        View carModelRowAdapter = layoutInflater.inflate(R.layout.video_list_row_adapter, parent, false);
-        ViewHolder viewHolder = new ViewHolder(carModelRowAdapter);
-        return viewHolder;
+        View view = layoutInflater.inflate(R.layout.rv_row_car_adapter, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        RepairVideo videoModel = mCarVideoList.get(position);
+        Car car = mCarList.get(position);
 
         ImageView brandLogo = holder.mCarBrandLogoImageView;
-        brandLogo.setImageResource(mLogoResId);
+        brandLogo.setImageResource(car.getLogo());
 
-        TextView videoTitle = holder.mVideoTitleTextView;
-        videoTitle.setText(videoModel.getVideoTitle());
+        TextView modelYear = holder.mModelYearTextView;
+        modelYear.setText(car.getBrandModelYear());
 
         ImageView playArrow = holder.mPlayArrowImageView;
         playArrow.setImageResource(R.drawable.ic_play_arrow);
+
     }
 
     @Override
     public int getItemCount() {
-        return mCarVideoList.size();
+        return mCarList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
         ImageView mCarBrandLogoImageView;
-        TextView mVideoTitleTextView;
+        TextView mModelYearTextView;
         ImageView mPlayArrowImageView;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mCarBrandLogoImageView = itemView.findViewById(R.id.adapter_car_brand_logo);
-            mVideoTitleTextView = itemView.findViewById(R.id.adapter_car_video_name);
-            mPlayArrowImageView = itemView.findViewById(R.id.adapter_play_arrow_model);
+            mCarBrandLogoImageView = itemView.findViewById(R.id.rv_row_car_logo);
+            mModelYearTextView = itemView.findViewById(R.id.rv_row_car);
+            mPlayArrowImageView = itemView.findViewById(R.id.rv_row_play_arrow);
             itemView.setOnClickListener(this);
         }
 
@@ -77,5 +72,4 @@ public class VideoListRecyViewAdapter extends RecyclerView.Adapter<VideoListRecy
             mListItemClickListener.onListItemClick(getAdapterPosition());
         }
     }
-
 }

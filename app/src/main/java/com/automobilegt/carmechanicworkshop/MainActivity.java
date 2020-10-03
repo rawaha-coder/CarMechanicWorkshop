@@ -1,14 +1,20 @@
 package com.automobilegt.carmechanicworkshop;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.text.HtmlCompat;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -19,16 +25,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
+import static com.automobilegt.carmechanicworkshop.util.Constants.SETTING_PREFERENCES;
+
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int FIRST_INSTAL_REQUEST_CODE = 001;
-
-    private AdView mAdView;
-
-    private static final String SETTING_VALUES_ID = "setting_preferences";
-    SharedPreferences sharedPreferences;
-    private boolean firstInstallation = false;
+    SharedPreferences mSharedPreferences;
 
     //Firebase connection
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -39,15 +43,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        sharedPreferences = getSharedPreferences(SETTING_VALUES_ID, MODE_PRIVATE);
-        firstInstallation = sharedPreferences.getBoolean("installed", false);
+        mSharedPreferences = getSharedPreferences(SETTING_PREFERENCES, MODE_PRIVATE);
+        boolean firstInstallation = mSharedPreferences.getBoolean("installed", false);
 
         if(!firstInstallation){
-                Intent intent = new Intent(MainActivity.this, FirstInstall.class);
-                startActivityForResult(intent, FIRST_INSTAL_REQUEST_CODE);
-        }
+            final Dialog dialog = new Dialog(this,android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
+            dialog.setContentView(R.layout.first_install);
+            final CheckBox checkBox = dialog.findViewById(R.id.agree_checkBox);
+            Button startButton = dialog.findViewById(R.id.get_started_button);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                checkBox.setText(Html.fromHtml(getString(R.string.sample_aula_and_privacy_policy), HtmlCompat.FROM_HTML_MODE_LEGACY));
+            } else {
+                checkBox.setText(Html.fromHtml(getString(R.string.sample_aula_and_privacy_policy)));
+            }
+            checkBox.setMovementMethod(LinkMovementMethod.getInstance());
 
+            startButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (checkBox.isChecked()){
+                        dialog.dismiss();
+                    }else {
+                        Toast.makeText(MainActivity.this, R.string.accept_started, Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+            dialog.show();
+        }
 
         if(currentUser == null){
             signInAnonymously();
@@ -55,22 +78,10 @@ public class MainActivity extends AppCompatActivity {
 
         // AdMob initialization
         MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
-        mAdView = findViewById(R.id.adView);
+        AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        adView.loadAd(adRequest);
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == FIRST_INSTAL_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) { // Activity.RESULT_OK
-                // get boolean data from Intent
-                firstInstallation = data.getBooleanExtra("installed", true);
-                sharedPreferences.edit().putBoolean("installed", firstInstallation).apply();
-            }
-        }
     }
 
     @Override
@@ -89,25 +100,21 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    // [Signin_anonymously]
     private void signInAnonymously() {
-        // [START signin_anonymously]
+
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in Anonymously success
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            currentUser = mAuth.getCurrentUser();
                         } else {
                             // If sign in Anonymously fails
-                            Toast.makeText(MainActivity.this, "Connection to database failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Objects.requireNonNull(task.getException()).getMessage();
                         }
-                        // [START_EXCLUDE]
-                        // [END_EXCLUDE]
                     }
                 });
-        // [END signin_anonymously]
     }
 }
