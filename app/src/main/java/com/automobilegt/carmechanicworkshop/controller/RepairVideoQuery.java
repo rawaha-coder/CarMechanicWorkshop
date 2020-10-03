@@ -2,10 +2,11 @@ package com.automobilegt.carmechanicworkshop.controller;
 
 import android.text.TextUtils;
 
-import com.automobilegt.carmechanicworkshop.model.CarBrand;
+import com.automobilegt.carmechanicworkshop.model.RepairVideo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,13 +19,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarBrandQuery {
-    public CarBrandQuery() {
+public class RepairVideoQuery {
+    public RepairVideoQuery() {
     }
-    public static List<CarBrand> fetchCarBrandData(String requestUrl){
+    public static List<RepairVideo> fetchRepairVideoData(String requestUrl){
         URL url = createUrl(requestUrl);
         String jsonResponse = null;
-        try{
+        try {
             jsonResponse = makeHttpRequest(url);
         }catch (IOException e){
             e.printStackTrace();
@@ -32,23 +33,24 @@ public class CarBrandQuery {
         return extractCarBrandFromJson(jsonResponse);
     }
 
-    private static List<CarBrand> extractCarBrandFromJson(String carBrandJSON) {
-        if (TextUtils.isEmpty(carBrandJSON)){
+    private static List<RepairVideo> extractCarBrandFromJson(String jsonResponse) {
+        if (TextUtils.isEmpty(jsonResponse)){
             return null;
         }
-        List<CarBrand> carBrands = new ArrayList<>();
+        List<RepairVideo> repairVideoList = new ArrayList<>();
         try {
-            JSONArray carBrandArray = new JSONArray(carBrandJSON);
-            for (int i =0; i < carBrandArray.length(); i++){
-                carBrands.add(new CarBrand(carBrandArray.getString(i)));
+            JSONArray response = new JSONArray(jsonResponse);
+            for (int i=0; i<response.length(); i++){
+                JSONObject jsonObject = response.getJSONObject(i);
+                repairVideoList.add(new RepairVideo(jsonObject.getString("title"), jsonObject.getString("description"), jsonObject.getString("link")));
             }
-        } catch (JSONException e) {
+        }catch (JSONException e){
             e.printStackTrace();
         }
-        return carBrands;
+        return repairVideoList;
     }
 
-    private static String makeHttpRequest(URL url) throws IOException {
+    private static String makeHttpRequest(URL url) throws IOException{
         String jsonResponse = "";
         if(url == null){
             return jsonResponse;
@@ -78,23 +80,23 @@ public class CarBrandQuery {
         return jsonResponse;
     }
 
-    private static String readFromStream(InputStream inputStream) throws IOException {
-        StringBuilder output = new StringBuilder();
+    private static String readFromStream(InputStream inputStream) throws IOException{
+        StringBuilder stringBuilder = new StringBuilder();
         if (inputStream != null){
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String line = bufferedReader.readLine();
             while (line != null){
-                output.append(line);
+                stringBuilder.append(line);
                 line = bufferedReader.readLine();
             }
         }
-        return output.toString();
+        return stringBuilder.toString();
     }
 
     private static URL createUrl(String requestUrl) {
         URL url = null;
-        try{
+        try {
             url = new URL(requestUrl);
         }catch (MalformedURLException e){
             e.printStackTrace();

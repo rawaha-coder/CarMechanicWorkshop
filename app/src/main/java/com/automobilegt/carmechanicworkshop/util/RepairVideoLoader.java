@@ -6,12 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.loader.content.AsyncTaskLoader;
 
-import com.automobilegt.carmechanicworkshop.controller.CarBrandQuery;
+import com.automobilegt.carmechanicworkshop.controller.RepairVideoQuery;
 
-public class CarBrandLoader extends AsyncTaskLoader {
+public class RepairVideoLoader extends AsyncTaskLoader {
     private String mUrl;
 
-    public CarBrandLoader(@NonNull Context context, String url) {
+    public RepairVideoLoader(@NonNull Context context, String url) {
         super(context);
         mUrl = url;
     }
@@ -27,6 +27,6 @@ public class CarBrandLoader extends AsyncTaskLoader {
         if (mUrl == null) {
             return null;
         }
-        return CarBrandQuery.fetchCarBrandData(mUrl);
+        return RepairVideoQuery.fetchRepairVideoData(mUrl);
     }
 }

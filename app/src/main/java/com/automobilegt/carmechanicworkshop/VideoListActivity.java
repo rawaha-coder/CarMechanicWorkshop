@@ -7,35 +7,27 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.automobilegt.carmechanicworkshop.adapter.VideoListRecyViewAdapter;
 import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
-import com.automobilegt.carmechanicworkshop.model.CarVideoModel;
+import com.automobilegt.carmechanicworkshop.model.RepairVideo;
+import com.automobilegt.carmechanicworkshop.util.RepairVideoLoader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.automobilegt.carmechanicworkshop.util.Constants.AUTOMOBILEGT_URL;
 import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_BRAND;
@@ -44,28 +36,20 @@ import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_YEAR;
 import static com.automobilegt.carmechanicworkshop.util.Constants.COLLECTION;
 
 
-public class VideoListActivity extends AppCompatActivity {
+public class VideoListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<RepairVideo>>{
 
     private static final int VIDEO_REQUEST_CODE = 302;
-
-    private AdView mAdView;
-
+    private static final int VIDEO_LOADER_ID = 4;
     private int logoId;
     private String year;
     private String brandName;
     private String modelName;
-    private String brandFolder;
-    private String modelFolder;
     private ProgressBar mProgressBar;
-
-    private ArrayList<CarVideoModel> mVideoList;
-    private VideoListRecyViewAdapter adapter;
-    private RecyclerView recyViewCarVideoList;
-
+    private ArrayList<RepairVideo> mVideoList;
+    private VideoListRecyViewAdapter mAdapter;
+    private String requestUrl;
     private FirebaseFirestore mFirebaseFirestore;
     private CollectionReference mCollectionReference;
-
-    private RequestQueue mRequestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +58,9 @@ public class VideoListActivity extends AppCompatActivity {
 
         // AdMob initialization
         MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
-        mAdView = findViewById(R.id.adView);
+        AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        adView.loadAd(adRequest);
 
         //fields initialization
         mProgressBar = findViewById(R.id.cmw_progress_bar);
@@ -87,64 +71,29 @@ public class VideoListActivity extends AppCompatActivity {
         modelName = intent.getStringExtra("model");
         year = intent.getStringExtra("year");
         logoId = intent.getIntExtra("logo", R.drawable.audi);
+        setTitle(modelName + " " + year + " Repair Vidoes");
 
         mFirebaseFirestore = FirebaseFirestore.getInstance();
         mCollectionReference = mFirebaseFirestore.collection(COLLECTION + "/" + CAR_BRAND + "/" + brandName + "/" + CAR_MODEL + "/" + modelName + "/" + CAR_YEAR + "/" + year);
 
-        brandFolder = brandName.toLowerCase();
+        String brandFolder = brandName.toLowerCase();
         brandFolder = brandFolder.replaceAll("\\s","");
 
-        modelFolder = modelName.toLowerCase();
+        String modelFolder = modelName.toLowerCase();
         modelFolder = modelFolder.replaceAll("\\s","");
 
+        requestUrl = AUTOMOBILEGT_URL + COLLECTION + "/" + brandFolder + "/" + modelFolder + "/" + year + ".json";
+        mVideoList = new ArrayList<>();
 
-        setTitle(brandName + " " + modelName + " " + year + " Repair Vidoes");
-
-        mRequestQueue = Volley.newRequestQueue(this);
-        mVideoList = new ArrayList<CarVideoModel>();
-
-            try{
-                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
-                        AUTOMOBILEGT_URL + COLLECTION + "/" + brandFolder + "/" + modelFolder + "/" + year + ".json", null,
-                        new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                for (int i=0; i<response.length(); i++) {
-                                    try {
-                                        JSONObject jsonObject = response.getJSONObject(i);
-                                        mVideoList.add(new CarVideoModel(jsonObject.getString("title"), jsonObject.getString("description"), jsonObject.getString("link")));
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                                adapter.notifyDataSetChanged();
-                                if(mVideoList != null){
-                                    mProgressBar.setVisibility(View.INVISIBLE);
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if(error != null){
-                            getVideoList();
-                        }
-                    }
-                });
-                mRequestQueue.add(jsonArrayRequest);
-            }catch (Exception e){
-                e.printStackTrace();
-                Toast.makeText(this, "fail to connect", Toast.LENGTH_SHORT).show();
-            }
-
-
-        recyViewCarVideoList = findViewById(R.id.recy_view_video_list_activity);
-        adapter = new VideoListRecyViewAdapter(mVideoList, logoId);
-        recyViewCarVideoList.setAdapter(adapter);
+        RecyclerView recyViewCarVideoList = findViewById(R.id.recy_view_video_list_activity);
+        mAdapter = new VideoListRecyViewAdapter(mVideoList, logoId);
+        recyViewCarVideoList.setAdapter(mAdapter);
         recyViewCarVideoList.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
         recyViewCarVideoList.setLayoutManager(new LinearLayoutManager(this));
 
+        LoaderManager.getInstance(this).restartLoader(VIDEO_LOADER_ID, null, this);
 
-        recyViewCarVideoList.addOnItemTouchListener(new RecyclerItemClickListener(this,  recyViewCarVideoList ,new RecyclerItemClickListener.OnItemClickListener() {
+        recyViewCarVideoList.addOnItemTouchListener(new RecyclerItemClickListener(this, recyViewCarVideoList,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         Intent intentVideo = new Intent(getApplicationContext(), PlayVideoActivity.class);
                         intentVideo.putExtra("video", mVideoList.get(position));
@@ -192,19 +141,42 @@ public class VideoListActivity extends AppCompatActivity {
         }
     }
 
-    private void getVideoList(){
-        mCollectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()){
-                    String title =  snapshot.getString("title");
-                    String description =  snapshot.getString("description");
-                    String link =  snapshot.getString("link");
-                    mVideoList.add(new CarVideoModel(title, description, link));
-                }
-                adapter.notifyDataSetChanged();
-                mProgressBar.setVisibility(View.INVISIBLE);
-            }
-        });
+    @NonNull
+    @Override
+    public Loader<List<RepairVideo>> onCreateLoader(int id, @Nullable Bundle args) {
+        return new RepairVideoLoader(this, requestUrl);
     }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<List<RepairVideo>> loader, List<RepairVideo> data) {
+        mVideoList.clear();
+        mProgressBar.setVisibility(View.GONE);
+        if (data != null && !data.isEmpty()){
+            mVideoList.addAll(data);
+            mAdapter.notifyDataSetChanged();
+        }else {
+            Toast.makeText(this, "No Year found ", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<List<RepairVideo>> loader) {
+        Toast.makeText(this, "No Video found ", Toast.LENGTH_SHORT).show();
+    }
+
+//    private void getVideoList(){
+//        mCollectionReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//            @Override
+//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                for (DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()){
+//                    String title =  snapshot.getString("title");
+//                    String description =  snapshot.getString("description");
+//                    String link =  snapshot.getString("link");
+//                    mVideoList.add(new RepairVideo(title, description, link));
+//                }
+//                adapter.notifyDataSetChanged();
+//                mProgressBar.setVisibility(View.INVISIBLE);
+//            }
+//        });
+//    }
 }

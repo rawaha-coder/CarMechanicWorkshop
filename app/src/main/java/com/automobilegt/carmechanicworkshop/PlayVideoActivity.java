@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.automobilegt.carmechanicworkshop.model.CarVideoModel;
+import com.automobilegt.carmechanicworkshop.model.RepairVideo;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -18,7 +18,7 @@ public class PlayVideoActivity extends AppCompatActivity {
 
     private AdView mAdView;
 
-    private CarVideoModel mVideo;
+    private RepairVideo mVideo;
     private TextView videoTitleTextView;
     private TextView videoMessageTextView;
     private int logoId;
@@ -39,7 +39,7 @@ public class PlayVideoActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
 
         // get Intent values
-        mVideo = (CarVideoModel) getIntent().getSerializableExtra("video");
+        mVideo = (RepairVideo) getIntent().getSerializableExtra("video");
 
         brandName = getIntent().getStringExtra("brand");
         modelName = getIntent().getStringExtra("model");
