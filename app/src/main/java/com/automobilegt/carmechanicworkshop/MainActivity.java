@@ -19,6 +19,8 @@ import androidx.core.text.HtmlCompat;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -66,22 +68,23 @@ public class MainActivity extends AppCompatActivity {
                     }else {
                         Toast.makeText(MainActivity.this, R.string.accept_started, Toast.LENGTH_SHORT).show();
                     }
-
                 }
             });
             dialog.show();
         }
 
-        if(currentUser == null){
-            signInAnonymously();
-        }
-
-        // AdMob initialization
-        MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
         AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
+        if(currentUser == null){
+            signInAnonymously();
+        }
     }
 
     @Override
@@ -96,13 +99,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void dashboardLights(View view) {
-        Intent intent = new Intent(getApplicationContext(), DashboardWarningLightActivity.class);
+        Intent intent = new Intent(getApplicationContext(), WarningLightActivity.class);
         startActivity(intent);
     }
 
-    // [Signin_anonymously]
+    // [SignIn_anonymously]
     private void signInAnonymously() {
-
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

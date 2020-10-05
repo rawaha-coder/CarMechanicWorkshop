@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rv_row_car_root"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -21,19 +22,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:contentDescription="@string/car_brand_logo" />
 
     </androidx.cardview.widget.CardView>
     <TextView
         android:id="@+id/rv_row_car"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
         android:padding="5dp"
-        android:text="CarBrand Name"
+        android:text="@string/car_brand_name"
         android:textColor="@android:color/white"
         android:fontFamily="casual"
         android:textSize="20sp" />
@@ -46,7 +48,8 @@
         android:layout_gravity="center_vertical"
         android:background="@android:color/black"
         android:layout_weight="0"
-        android:layout_marginRight="8dp"
-        android:padding="5dp" />
+        android:layout_marginEnd="8dp"
+        android:padding="5dp"
+        android:contentDescription="@string/right_arrow" />
 
 </LinearLayout>

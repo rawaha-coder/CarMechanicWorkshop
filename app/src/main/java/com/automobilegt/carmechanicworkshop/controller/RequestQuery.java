@@ -24,14 +24,20 @@ public class RequestQuery {
     public RequestQuery() {
     }
 
-    //method to fetch brand list for CarBrandActivity
-    public static List<Car> fetchBrandData(String requestUrl){
-        URL url = createUrl(requestUrl);
+    //method to fetch brand list for CarBrandActivity from 2 links
+    public static List<Car> fetchBrandData(String firstUrl, String secondUrl){
         String jsonResponse = null;
         try{
-            jsonResponse = makeHttpRequest(url);
+            jsonResponse = makeRequest(firstUrl);
         }catch (IOException e){
             e.printStackTrace();
+        }
+        if(jsonResponse == null || jsonResponse.isEmpty()){
+            try {
+                jsonResponse = makeRequest(secondUrl);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }
         return extractBrandFromJsonFile(jsonResponse);
     }
@@ -52,14 +58,20 @@ public class RequestQuery {
         return Brands;
     }
 
-    //method to fetch model list for CarModelActivity
-    public static List<Car> fetchModelData(String requestUrl, int logo){
-        URL url = createUrl(requestUrl);
+    //method to fetch model list for CarModelActivity from 2 links
+    public static List<Car> fetchModelData(String firstUrl, String secondUrl, int logo){
         String jsonResponse = null;
-        try {
-            jsonResponse = makeHttpRequest(url);
+        try{
+            jsonResponse = makeRequest(firstUrl);
         }catch (IOException e){
             e.printStackTrace();
+        }
+        if(jsonResponse == null || jsonResponse.isEmpty()){
+            try {
+                jsonResponse = makeRequest(secondUrl);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }
         return extractModelFromJsonFile(jsonResponse, logo);
     }
@@ -80,14 +92,20 @@ public class RequestQuery {
         return carList;
     }
 
-    //method to fetch year list for CarYearActivity
-    public static List<Car> fetchYearData(String requestUrl, int logo) {
-        URL url = createUrl(requestUrl);
+    //method to fetch year list for CarYearActivity from 2 links
+    public static List<Car> fetchYearData(String firstUrl, String secondUrl, int logo) {
         String jsonResponse = null;
-        try {
-            jsonResponse = makeHttpRequest(url);
+        try{
+            jsonResponse = makeRequest(firstUrl);
         }catch (IOException e){
             e.printStackTrace();
+        }
+        if(jsonResponse == null || jsonResponse.isEmpty()){
+            try {
+                jsonResponse = makeRequest(secondUrl);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }
         return extractYearFromJsonFile(jsonResponse, logo);
     }
@@ -108,14 +126,20 @@ public class RequestQuery {
         return list;
     }
 
-    //method to fetch video list for VideoListActivity
-    public static List<RepairVideo> fetchRepairVideoData(String requestUrl){
-        URL url = createUrl(requestUrl);
+    //method to fetch video list for VideoListActivity from 2 links
+    public static List<RepairVideo> fetchRepairVideoData(String firstUrl, String secondUrl){
         String jsonResponse = null;
-        try {
-            jsonResponse = makeHttpRequest(url);
+        try{
+            jsonResponse = makeRequest(firstUrl);
         }catch (IOException e){
             e.printStackTrace();
+        }
+        if(jsonResponse == null || jsonResponse.isEmpty()){
+            try {
+                jsonResponse = makeRequest(secondUrl);
+            }catch (IOException e){
+                e.printStackTrace();
+            }
         }
         return extractVideoListFromJson(jsonResponse);
     }
@@ -137,7 +161,33 @@ public class RequestQuery {
         return repairVideoList;
     }
 
-    private static String makeHttpRequest(URL url) throws IOException {
+    private static String readFromStream(InputStream inputStream) throws IOException {
+        StringBuilder output = new StringBuilder();
+        if (inputStream != null){
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String line = bufferedReader.readLine();
+            while (line != null){
+                output.append(line);
+                line = bufferedReader.readLine();
+            }
+        }
+        return output.toString();
+    }
+
+    private static URL createUrl(String requestUrl) {
+        URL url = null;
+        try{
+            url = new URL(requestUrl);
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    //method to make an http request and return a String JSON variable
+    private static String  makeRequest(String requestUrl) throws IOException{
+        URL url  = createUrl(requestUrl);
         String jsonResponse = "";
         if(url == null){
             return jsonResponse;
@@ -165,29 +215,5 @@ public class RequestQuery {
             }
         }
         return jsonResponse;
-    }
-
-    private static String readFromStream(InputStream inputStream) throws IOException {
-        StringBuilder output = new StringBuilder();
-        if (inputStream != null){
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String line = bufferedReader.readLine();
-            while (line != null){
-                output.append(line);
-                line = bufferedReader.readLine();
-            }
-        }
-        return output.toString();
-    }
-
-    private static URL createUrl(String requestUrl) {
-        URL url = null;
-        try{
-            url = new URL(requestUrl);
-        }catch (MalformedURLException e){
-            e.printStackTrace();
-        }
-        return url;
     }
 }

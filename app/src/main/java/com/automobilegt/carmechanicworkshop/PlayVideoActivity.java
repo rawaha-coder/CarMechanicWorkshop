@@ -13,14 +13,12 @@ import com.automobilegt.carmechanicworkshop.model.RepairVideo;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 public class PlayVideoActivity extends AppCompatActivity {
 
-    private AdView mAdView;
-
     private RepairVideo mVideo;
-    private TextView videoTitleTextView;
-    private TextView videoMessageTextView;
     private int logoId;
     private String year;
     private String brandName;
@@ -32,13 +30,15 @@ public class PlayVideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_video);
 
-        // AdMob initialization
-        MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
-        mAdView = findViewById(R.id.adView);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        adView.loadAd(adRequest);
 
-        // get Intent values
         mVideo = (RepairVideo) getIntent().getSerializableExtra("video");
 
         brandName = getIntent().getStringExtra("brand");
@@ -46,8 +46,8 @@ public class PlayVideoActivity extends AppCompatActivity {
         year = getIntent().getStringExtra("year");
         logoId = getIntent().getIntExtra("logo", R.drawable.audi);
 
-        videoTitleTextView = findViewById(R.id.video_title_text_view);
-        videoMessageTextView = findViewById(R.id.video_message_text_view);
+        TextView videoTitleTextView = findViewById(R.id.video_title_text_view);
+        TextView videoMessageTextView = findViewById(R.id.video_message_text_view);
 
         videoTitleTextView.setText(mVideo.getVideoTitle());
         videoMessageTextView.setText(mVideo.getVideoDescription());
@@ -60,18 +60,16 @@ public class PlayVideoActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = new Intent(PlayVideoActivity.this, VideoListActivity.class);
-                intent.putExtra("year", year);
-                intent.putExtra("brand", brandName);
-                intent.putExtra("model", modelName);
-                intent.putExtra("logo", logoId);
-                setResult(RESULT_OK, intent);
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(PlayVideoActivity.this, VideoListActivity.class);
+            intent.putExtra("year", year);
+            intent.putExtra("brand", brandName);
+            intent.putExtra("model", modelName);
+            intent.putExtra("logo", logoId);
+            setResult(RESULT_OK, intent);
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }
