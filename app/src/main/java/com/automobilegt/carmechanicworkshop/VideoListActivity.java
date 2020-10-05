@@ -16,13 +16,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.automobilegt.carmechanicworkshop.adapter.VideoListRecyViewAdapter;
+import com.automobilegt.carmechanicworkshop.adapter.RVVideoListAdapter;
 import com.automobilegt.carmechanicworkshop.interfaces.ListItemClickListener;
 import com.automobilegt.carmechanicworkshop.model.RepairVideo;
 import com.automobilegt.carmechanicworkshop.util.RepairVideoLoader;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -46,7 +48,7 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
     private String modelName;
     private ProgressBar mProgressBar;
     private ArrayList<RepairVideo> mVideoList;
-    private VideoListRecyViewAdapter mAdapter;
+    private RVVideoListAdapter mAdapter;
     private String requestUrl;
     private FirebaseFirestore mFirebaseFirestore;
     private CollectionReference mCollectionReference;
@@ -57,7 +59,11 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
         setContentView(R.layout.activity_video_list);
 
         // AdMob initialization
-        MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
         AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
@@ -86,7 +92,7 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
         mVideoList = new ArrayList<>();
 
         RecyclerView recyViewCarVideoList = findViewById(R.id.recy_view_video_list_activity);
-        mAdapter = new VideoListRecyViewAdapter(this, mVideoList, logoId);
+        mAdapter = new RVVideoListAdapter(this, mVideoList, logoId);
         recyViewCarVideoList.setAdapter(mAdapter);
         recyViewCarVideoList.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
         recyViewCarVideoList.setLayoutManager(new LinearLayoutManager(this));

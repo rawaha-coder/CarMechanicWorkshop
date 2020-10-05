@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,12 +17,12 @@ import com.automobilegt.carmechanicworkshop.model.RepairVideo;
 
 import java.util.ArrayList;
 
-public class VideoListRecyViewAdapter extends RecyclerView.Adapter<VideoListRecyViewAdapter.ViewHolder> {
+public class RVVideoListAdapter extends RecyclerView.Adapter<RVVideoListAdapter.ViewHolder> {
     private ListItemClickListener mListItemClickListener;
     private ArrayList<RepairVideo> mCarVideoList;
     private int mLogoResId;
 
-    public VideoListRecyViewAdapter(ListItemClickListener listItemClickListener, ArrayList<RepairVideo> carModelList, int logoResId) {
+    public RVVideoListAdapter(ListItemClickListener listItemClickListener, ArrayList<RepairVideo> carModelList, int logoResId) {
         mCarVideoList = carModelList;
         mLogoResId = logoResId;
         mListItemClickListener = listItemClickListener;
@@ -51,6 +52,11 @@ public class VideoListRecyViewAdapter extends RecyclerView.Adapter<VideoListRecy
 
         ImageView playArrow = holder.mPlayArrowImageView;
         playArrow.setImageResource(R.drawable.ic_play_arrow);
+
+        LinearLayout root = holder.rvRowRoot;
+        if (position == (mCarVideoList.size()-1)){
+            root.setPadding(0,0,0,100);
+        }
     }
 
     @Override
@@ -59,16 +65,16 @@ public class VideoListRecyViewAdapter extends RecyclerView.Adapter<VideoListRecy
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
         ImageView mCarBrandLogoImageView;
         TextView mVideoTitleTextView;
         ImageView mPlayArrowImageView;
-
+        LinearLayout rvRowRoot;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mCarBrandLogoImageView = itemView.findViewById(R.id.adapter_car_brand_logo);
             mVideoTitleTextView = itemView.findViewById(R.id.adapter_car_video_name);
             mPlayArrowImageView = itemView.findViewById(R.id.adapter_play_arrow_model);
+            rvRowRoot = itemView.findViewById(R.id.rv_row_video_root);
             itemView.setOnClickListener(this);
         }
 
@@ -77,5 +83,4 @@ public class VideoListRecyViewAdapter extends RecyclerView.Adapter<VideoListRecy
             mListItemClickListener.onListItemClick(getAdapterPosition());
         }
     }
-
 }

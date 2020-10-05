@@ -11,11 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 public class WarningLightMeaningActivity extends AppCompatActivity {
 
     private String color;
-    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +40,26 @@ public class WarningLightMeaningActivity extends AppCompatActivity {
         symbolImage.setImageResource(sImageId);
 
         // AdMob
-        MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
-        mAdView = findViewById(R.id.adView);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        adView.loadAd(adRequest);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = new Intent(WarningLightMeaningActivity.this, ListDashboardWarningLightActivity.class);
-                intent.putExtra("color", color);
-                setResult(RESULT_OK, intent);
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if(item.getItemId() == android.R.id.home){
+            Intent intent = new Intent(WarningLightMeaningActivity.this, WarningLightListActivity.class);
+            intent.putExtra("color", color);
+            setResult(RESULT_OK, intent);
+            finish();
+            return true;
+        }else {
+            return super.onOptionsItemSelected(item);
         }
 
     }

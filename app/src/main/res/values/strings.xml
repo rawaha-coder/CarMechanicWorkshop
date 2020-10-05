@@ -10,6 +10,9 @@
     <string name="ask_mechanic_button">Ask Mechanic</string>
     <string name="main_button_font_family">casual</string>
 
+    <!--AdUnitId-->
+    <string name="adUnitId">ca-app-pub-3940256099942544/6300978111</string>
+
     <!--First Install activity texts-->
     <string name="welcome_to">Welcome to</string>
     <string name="automobile">Car Mechanic</string>
@@ -47,4 +50,9 @@
 
     <!--Next Version String V3-->
     <string name="no_internet_connection">No internet connection</string>
+    <string name="car_brand_name">Car Brand Name</string>
+    <string name="right_arrow">Right arrow</string>
+    <string name="car_brand_logo">Car brand logo</string>
+    <string name="warning_light_title">Warning Light Title</string>
+    <string name="warning_light_symbol">Warning light symbol</string>
 </resources>

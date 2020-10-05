@@ -13,6 +13,8 @@ import com.automobilegt.carmechanicworkshop.model.RepairVideo;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 public class PlayVideoActivity extends AppCompatActivity {
 
@@ -33,10 +35,14 @@ public class PlayVideoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play_video);
 
         // AdMob initialization
-        MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
-        mAdView = findViewById(R.id.adView);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        adView.loadAd(adRequest);
 
         // get Intent values
         mVideo = (RepairVideo) getIntent().getSerializableExtra("video");

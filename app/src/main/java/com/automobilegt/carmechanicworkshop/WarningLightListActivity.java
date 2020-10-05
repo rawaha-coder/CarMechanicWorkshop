@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.automobilegt.carmechanicworkshop.adapter.WarningLightRecyViewAdapter;
+import com.automobilegt.carmechanicworkshop.adapter.RVWarningLightAdapter;
 import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
 import com.automobilegt.carmechanicworkshop.data.GreenSymbolsData;
 import com.automobilegt.carmechanicworkshop.data.OrangeSymbolsData;
@@ -19,12 +19,14 @@ import com.automobilegt.carmechanicworkshop.model.WarningLight;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.ArrayList;
 
 import static com.automobilegt.carmechanicworkshop.model.WarningLight.CreateWarningLightArrayList;
 
-public class ListDashboardWarningLightActivity extends AppCompatActivity {
+public class WarningLightListActivity extends AppCompatActivity {
 
     private static final int COLOR_REQUEST_CODE = 100;
 
@@ -38,7 +40,7 @@ public class ListDashboardWarningLightActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_dashboard_warning_light);
+        setContentView(R.layout.activity_warning_light_list);
 
         Intent intent = getIntent();
         if(intent.getStringExtra("color") != null){
@@ -69,7 +71,7 @@ public class ListDashboardWarningLightActivity extends AppCompatActivity {
             mWarningLightArrayList = CreateWarningLightArrayList(iconId, itemName, itemDescription);
         }
 
-        WarningLightRecyViewAdapter adapter = new WarningLightRecyViewAdapter(mWarningLightArrayList);
+        RVWarningLightAdapter adapter = new RVWarningLightAdapter(mWarningLightArrayList);
         recyViewWarningLight.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
         recyViewWarningLight.setAdapter(adapter);
         recyViewWarningLight.setLayoutManager(new LinearLayoutManager(this));
@@ -91,10 +93,14 @@ public class ListDashboardWarningLightActivity extends AppCompatActivity {
         );
 
         // AdMob
-        MobileAds.initialize(this, "ca-app-pub-2666553857909586~7667456701");
-        mAdView = findViewById(R.id.adView);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        adView.loadAd(adRequest);
 
     }
 

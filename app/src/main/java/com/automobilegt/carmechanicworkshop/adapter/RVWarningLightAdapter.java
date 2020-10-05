@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,11 +16,11 @@ import com.automobilegt.carmechanicworkshop.model.WarningLight;
 
 import java.util.List;
 
-public class WarningLightRecyViewAdapter extends RecyclerView.Adapter<WarningLightRecyViewAdapter.ViewHolder> {
+public class RVWarningLightAdapter extends RecyclerView.Adapter<RVWarningLightAdapter.ViewHolder> {
 
     private List<WarningLight> mWarningLightList;
 
-    public WarningLightRecyViewAdapter(List<WarningLight> warningLightList) {
+    public RVWarningLightAdapter(List<WarningLight> warningLightList) {
         mWarningLightList = warningLightList;
     }
 
@@ -36,7 +37,6 @@ public class WarningLightRecyViewAdapter extends RecyclerView.Adapter<WarningLig
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        // Get the warninglight data model based on position
         WarningLight warningLight = mWarningLightList.get(position);
 
         ImageView warningImage = holder.mWarningImageView;
@@ -48,6 +48,10 @@ public class WarningLightRecyViewAdapter extends RecyclerView.Adapter<WarningLig
         ImageView playArrow = holder.mPlayArrowImageView;
         playArrow.setImageResource(R.drawable.ic_play_arrow);
 
+        LinearLayout root = holder.rvRowRoot;
+        if (position == (mWarningLightList.size()-1)){
+            root.setPadding(0,0,0,100);
+        }
     }
 
     @Override
@@ -56,17 +60,16 @@ public class WarningLightRecyViewAdapter extends RecyclerView.Adapter<WarningLig
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-
         ImageView mWarningImageView;
         TextView mTitleTextView;
         ImageView mPlayArrowImageView;
-
+        LinearLayout rvRowRoot;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mWarningImageView = itemView.findViewById(R.id.adapter_warning_light_icon);
             mTitleTextView = itemView.findViewById(R.id.adapter_warning_light_title);
             mPlayArrowImageView = itemView.findViewById(R.id.adapter_play_arrow_image_view);
-
+            rvRowRoot = itemView.findViewById(R.id.rv_row_warning_root);
         }
     }
 }
