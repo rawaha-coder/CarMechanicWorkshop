@@ -14,7 +14,7 @@
         <!-- AdMob -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-2666553857909586~7667456701" />
+            android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <activity
             android:name=".PlayVideoActivity"
@@ -58,22 +58,22 @@
         </activity>
         <activity
             android:name=".WarningLightMeaningActivity"
-            android:parentActivityName=".ListDashboardWarningLightActivity"
+            android:parentActivityName=".WarningLightListActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.automobilegt.carmechanicworkshop.ListDashboardWarningLightActivity" />
+                android:value="com.automobilegt.carmechanicworkshop.WarningLightListActivity" />
         </activity>
         <activity
-            android:name=".ListDashboardWarningLightActivity"
-            android:parentActivityName=".DashboardWarningLightActivity"
+            android:name=".WarningLightListActivity"
+            android:parentActivityName=".WarningLightActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.automobilegt.carmechanicworkshop.DashboardWarningLightActivity" />
+                android:value="com.automobilegt.carmechanicworkshop.WarningLightActivity" />
         </activity>
         <activity
-            android:name=".DashboardWarningLightActivity"
+            android:name=".WarningLightActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
             <meta-data

@@ -1,7 +1,6 @@
 package com.automobilegt.carmechanicworkshop.util;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,22 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CarLoader extends AsyncTaskLoader {
-    private String mUrl;
+    private String firstUrl;
+    private String secondURL;
     private String mContextName;
     private int mLogo;
 
-    public CarLoader(@NonNull Context context, String url) {
+    public CarLoader(@NonNull Context context, String firstUrl, String secondURL) {
         super(context);
         mContextName = context.getClass().getName();
-        Log.d("Context", context.getClass().getName());
-        mUrl = url;
+        this.firstUrl = firstUrl;
+        this.secondURL = secondURL;
     }
-    public CarLoader(@NonNull Context context, String url, int logo) {
+    public CarLoader(@NonNull Context context, String firstUrl, String secondURL, int logo) {
         super(context);
         mContextName = context.getClass().getName();
-        Log.d("Context", context.getClass().getName());
+        this.firstUrl = firstUrl;
+        this.secondURL = secondURL;
         mLogo = logo;
-        mUrl = url;
     }
 
     @Override
@@ -41,15 +41,15 @@ public class CarLoader extends AsyncTaskLoader {
     @Override
     public Object loadInBackground() {
         List<Car> list = new ArrayList<>();
-        if (mUrl == null) {
+        if (firstUrl == null || secondURL == null) {
             return null;
         }
         if (mContextName.equals("com.automobilegt.carmechanicworkshop.CarBrandActivity")){
-            list = RequestQuery.fetchBrandData(mUrl);
+            list = RequestQuery.fetchBrandData(firstUrl, secondURL);
         }else if(mContextName.equals("com.automobilegt.carmechanicworkshop.CarModelActivity")){
-            list = RequestQuery.fetchModelData(mUrl, mLogo);
+            list = RequestQuery.fetchModelData(firstUrl, secondURL, mLogo);
         }else if (mContextName.equals("com.automobilegt.carmechanicworkshop.CarYearActivity")){
-            list = RequestQuery.fetchYearData(mUrl, mLogo);
+            list = RequestQuery.fetchYearData(firstUrl, secondURL, mLogo);
         }
         return list;
     }
