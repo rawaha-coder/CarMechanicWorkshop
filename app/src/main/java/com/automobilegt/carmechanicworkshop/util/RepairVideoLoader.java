@@ -9,11 +9,14 @@ import androidx.loader.content.AsyncTaskLoader;
 import com.automobilegt.carmechanicworkshop.controller.RequestQuery;
 
 public class RepairVideoLoader extends AsyncTaskLoader {
-    private String mUrl;
+    //private String mUrl;
+    private String firstUrl;
+    private String secondURL;
 
-    public RepairVideoLoader(@NonNull Context context, String url) {
+    public RepairVideoLoader(@NonNull Context context, String firstUrl, String secondURL) {
         super(context);
-        mUrl = url;
+        this.firstUrl = firstUrl;
+        this.secondURL = secondURL;
     }
 
     @Override
@@ -24,9 +27,9 @@ public class RepairVideoLoader extends AsyncTaskLoader {
     @Nullable
     @Override
     public Object loadInBackground() {
-        if (mUrl == null) {
+        if (firstUrl == null || secondURL == null) {
             return null;
         }
-        return RequestQuery.fetchRepairVideoData(mUrl);
+        return RequestQuery.fetchRepairVideoData(firstUrl, secondURL);
     }
 }

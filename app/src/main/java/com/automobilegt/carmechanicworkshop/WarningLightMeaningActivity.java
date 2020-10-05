@@ -25,6 +25,15 @@ public class WarningLightMeaningActivity extends AppCompatActivity {
 
         setTitle("Warning Light Meaning");
 
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+        AdView adView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
+
         ImageView symbolImage = findViewById(R.id.symbolImageView);
         TextView symbolName = findViewById(R.id.symbolNameTextView);
         TextView symbolDescription = findViewById(R.id.symbolMeaningTextView);
@@ -39,15 +48,6 @@ public class WarningLightMeaningActivity extends AppCompatActivity {
         symbolDescription.setText(sDescription);
         symbolImage.setImageResource(sImageId);
 
-        // AdMob
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-        AdView adView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
     }
 
     @Override

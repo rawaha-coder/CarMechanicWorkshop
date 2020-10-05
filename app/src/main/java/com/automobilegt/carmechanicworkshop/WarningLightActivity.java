@@ -18,10 +18,8 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 
 public class WarningLightActivity extends AppCompatActivity {
 
-    private AdView mAdView;
-    private String color;
-
     public void warningLightSymbols(View view) {
+        String color;
         if(view.getTag().toString().equals("red")){
             Intent intent = new Intent(getApplicationContext(), WarningLightListActivity.class );
             color = "Red";
@@ -47,15 +45,6 @@ public class WarningLightActivity extends AppCompatActivity {
 
         setTitle("Warning Light Color");
 
-        TextView textView = findViewById(R.id.bashboard_warning_text_view);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            textView.setText(Html.fromHtml(getString(R.string.dashboard_warning_light_text), HtmlCompat.FROM_HTML_MODE_LEGACY));
-        } else {
-            textView.setText(Html.fromHtml(getString(R.string.dashboard_warning_light_text)));
-        }
-
-        // AdMob
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -64,5 +53,13 @@ public class WarningLightActivity extends AppCompatActivity {
         AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
+
+        TextView textView = findViewById(R.id.bashboard_warning_text_view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            textView.setText(Html.fromHtml(getString(R.string.dashboard_warning_light_text), HtmlCompat.FROM_HTML_MODE_LEGACY));
+        } else {
+            textView.setText(Html.fromHtml(getString(R.string.dashboard_warning_light_text)));
+        }
     }
 }

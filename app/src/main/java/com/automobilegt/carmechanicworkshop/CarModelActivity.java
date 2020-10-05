@@ -30,7 +30,8 @@ import java.util.List;
 
 import static com.automobilegt.carmechanicworkshop.util.Constants.AUTOMOBILEGT_URL;
 import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_MODEL;
-import static com.automobilegt.carmechanicworkshop.util.Constants.COLLECTION;
+import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_URL;
+import static com.automobilegt.carmechanicworkshop.util.Constants.SECOND_URL;
 
 public class CarModelActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Car>>, ListItemClickListener {
 
@@ -40,8 +41,9 @@ public class CarModelActivity extends AppCompatActivity implements LoaderManager
     private int logoId;
     private ProgressBar mProgressBar;
     private List<Car> mModelList;
+    private String firstUrl;
+    private String secondURL;
     private RVCarAdapter mAdapter;
-    private String requestUrl;
 
 
     @Override
@@ -49,7 +51,6 @@ public class CarModelActivity extends AppCompatActivity implements LoaderManager
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_model);
 
-        // AdMob initialization
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -68,8 +69,10 @@ public class CarModelActivity extends AppCompatActivity implements LoaderManager
 
         String brandFolder = brandName.toLowerCase();
         brandFolder = brandFolder.replaceAll("\\s","");
-        requestUrl = AUTOMOBILEGT_URL + COLLECTION + "/" + brandFolder + "/" + CAR_MODEL + ".json";
+
         mModelList = new ArrayList<>();
+        firstUrl = AUTOMOBILEGT_URL + FIRST_URL + "/" + brandFolder + "/" + CAR_MODEL + ".json";
+        secondURL = AUTOMOBILEGT_URL + SECOND_URL + "/" + brandFolder + "/" + CAR_MODEL + ".json";
 
         LoaderManager.getInstance(this).restartLoader(MODEL_LOADER_ID, null, this);
 
@@ -84,8 +87,7 @@ public class CarModelActivity extends AppCompatActivity implements LoaderManager
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAR_MODEL_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) { // Activity.RESULT_OK
-                // get String data from Intent
+            if (resultCode == RESULT_OK) {
                 assert data != null;
                 brandName = data.getStringExtra("brand");
                 logoId = data.getIntExtra("logo", R.drawable.audi);
@@ -96,7 +98,7 @@ public class CarModelActivity extends AppCompatActivity implements LoaderManager
     @NonNull
     @Override
     public Loader<List<Car>> onCreateLoader(int id, @Nullable Bundle args) {
-        return new CarLoader(this, requestUrl, logoId );
+        return new CarLoader(this, firstUrl, secondURL, logoId );
     }
 
     @Override

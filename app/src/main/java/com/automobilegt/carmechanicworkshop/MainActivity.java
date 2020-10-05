@@ -68,13 +68,11 @@ public class MainActivity extends AppCompatActivity {
                     }else {
                         Toast.makeText(MainActivity.this, R.string.accept_started, Toast.LENGTH_SHORT).show();
                     }
-
                 }
             });
             dialog.show();
         }
 
-        // AdMob initialization
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -107,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
     // [SignIn_anonymously]
     private void signInAnonymously() {
-
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

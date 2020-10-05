@@ -25,17 +25,13 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.automobilegt.carmechanicworkshop.util.Constants.AUTOMOBILEGT_URL;
-import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_BRAND;
-import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_MODEL;
-import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_YEAR;
-import static com.automobilegt.carmechanicworkshop.util.Constants.COLLECTION;
+import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_URL;
+import static com.automobilegt.carmechanicworkshop.util.Constants.SECOND_URL;
 
 
 public class VideoListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<RepairVideo>>, ListItemClickListener {
@@ -48,17 +44,15 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
     private String modelName;
     private ProgressBar mProgressBar;
     private ArrayList<RepairVideo> mVideoList;
+    private String firstUrl;
+    private String secondURL;
     private RVVideoListAdapter mAdapter;
-    private String requestUrl;
-    private FirebaseFirestore mFirebaseFirestore;
-    private CollectionReference mCollectionReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_list);
 
-        // AdMob initialization
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -68,19 +62,14 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
-        //fields initialization
         mProgressBar = findViewById(R.id.cmw_progress_bar);
         mProgressBar.setVisibility(View.VISIBLE);
         Intent intent = getIntent();
-
         brandName = intent.getStringExtra("brand");
         modelName = intent.getStringExtra("model");
         year = intent.getStringExtra("year");
         logoId = intent.getIntExtra("logo", R.drawable.audi);
         setTitle(modelName + " " + year + " Repair Vidoes");
-
-        mFirebaseFirestore = FirebaseFirestore.getInstance();
-        mCollectionReference = mFirebaseFirestore.collection(COLLECTION + "/" + CAR_BRAND + "/" + brandName + "/" + CAR_MODEL + "/" + modelName + "/" + CAR_YEAR + "/" + year);
 
         String brandFolder = brandName.toLowerCase();
         brandFolder = brandFolder.replaceAll("\\s","");
@@ -88,8 +77,9 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
         String modelFolder = modelName.toLowerCase();
         modelFolder = modelFolder.replaceAll("\\s","");
 
-        requestUrl = AUTOMOBILEGT_URL + COLLECTION + "/" + brandFolder + "/" + modelFolder + "/" + year + ".json";
         mVideoList = new ArrayList<>();
+        firstUrl = AUTOMOBILEGT_URL + FIRST_URL + "/" + brandFolder + "/" + modelFolder + "/" + year + ".json";
+        secondURL = AUTOMOBILEGT_URL + SECOND_URL + "/" + brandFolder + "/" + modelFolder + "/" + year + ".json";
 
         RecyclerView recyViewCarVideoList = findViewById(R.id.recy_view_video_list_activity);
         mAdapter = new RVVideoListAdapter(this, mVideoList, logoId);
@@ -103,31 +93,28 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = new Intent(VideoListActivity.this, CarYearActivity.class);
-                intent.putExtra("brand", brandName);
-                intent.putExtra("model", modelName);
-                intent.putExtra("logo", logoId);
-                setResult(RESULT_OK, intent);
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(VideoListActivity.this, CarYearActivity.class);
+            intent.putExtra("brand", brandName);
+            intent.putExtra("model", modelName);
+            intent.putExtra("logo", logoId);
+            setResult(RESULT_OK, intent);
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == VIDEO_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) { // Activity.RESULT_OK
-                // get data from Intent
+            if (resultCode == RESULT_OK) {
+                assert data != null;
                 year = data.getStringExtra("year");
                 brandName = data.getStringExtra("brand");
                 modelName = data.getStringExtra("model");
                 logoId = data.getIntExtra("logo", R.drawable.audi);
-
             }
         }
     }
@@ -135,7 +122,7 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
     @NonNull
     @Override
     public Loader<List<RepairVideo>> onCreateLoader(int id, @Nullable Bundle args) {
-        return new RepairVideoLoader(this, requestUrl);
+        return new RepairVideoLoader(this, firstUrl, secondURL);
     }
 
     @Override

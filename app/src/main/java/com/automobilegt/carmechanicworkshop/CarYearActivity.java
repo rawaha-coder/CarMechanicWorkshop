@@ -25,40 +25,34 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.automobilegt.carmechanicworkshop.util.Constants.AUTOMOBILEGT_URL;
-import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_BRAND;
-import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_MODEL;
 import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_YEAR;
-import static com.automobilegt.carmechanicworkshop.util.Constants.COLLECTION;
+import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_URL;
+import static com.automobilegt.carmechanicworkshop.util.Constants.SECOND_URL;
 
 
 public class CarYearActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Car>>, ListItemClickListener {
 
     private static final int CAR_YEAR_REQUEST_CODE = 301;
     public static final int YEAR_LOADER_ID = 3;
-
     private String brandName;
     private String modelName;
     private int logoId;
     private ProgressBar mProgressBar;
     private List<Car> mYearList;
+    private String firstUrl;
+    private String secondURL;
     private RVCarAdapter mAdapter;
-    private String requestUrl;
-    private FirebaseFirestore mFirebaseFirestore;
-    private DocumentReference mDocumentReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_year);
 
-        // AdMob initialization
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -68,17 +62,12 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
-        //fields initialization
         mProgressBar = findViewById(R.id.cmw_progress_bar);
         mProgressBar.setVisibility(View.VISIBLE);
         Intent intent = getIntent();
-
         brandName = intent.getStringExtra("brand");
         modelName = intent.getStringExtra("model");
         logoId = intent.getIntExtra("logo", R.drawable.audi);
-
-        mFirebaseFirestore = FirebaseFirestore.getInstance();
-        mDocumentReference = mFirebaseFirestore.document(COLLECTION + "/" + CAR_BRAND + "/" + brandName + "/" + CAR_MODEL + "/" + modelName + "/" + CAR_YEAR);
 
         String brandFolder = brandName.toLowerCase();
         brandFolder = brandFolder.replaceAll("\\s","");
@@ -89,7 +78,8 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
         setTitle(brandName + " " + modelName);
 
         mYearList = new ArrayList<>();
-        requestUrl = AUTOMOBILEGT_URL + COLLECTION + "/" + brandFolder + "/" + modelFolder + "/" + CAR_YEAR + ".json";
+        firstUrl = AUTOMOBILEGT_URL + FIRST_URL + "/" + brandFolder + "/" + modelFolder + "/" + CAR_YEAR + ".json";
+        secondURL = AUTOMOBILEGT_URL + SECOND_URL + "/" + brandFolder + "/" + modelFolder + "/" + CAR_YEAR + ".json";
 
         LoaderManager.getInstance(this).restartLoader(YEAR_LOADER_ID, null, this);
 
@@ -104,7 +94,7 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
     @NonNull
     @Override
     public Loader<List<Car>> onCreateLoader(int id, @Nullable Bundle args) {
-        return new CarLoader(this, requestUrl, logoId);
+        return new CarLoader(this, firstUrl, secondURL, logoId);
     }
 
     @Override
@@ -136,17 +126,15 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = new Intent(CarYearActivity.this, CarModelActivity.class);
-                intent.putExtra("brand", brandName);
-                intent.putExtra("logo", logoId);
-                setResult(RESULT_OK, intent);
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(CarYearActivity.this, CarModelActivity.class);
+            intent.putExtra("brand", brandName);
+            intent.putExtra("logo", logoId);
+            setResult(RESULT_OK, intent);
+            finish();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
 
     }
 
@@ -154,8 +142,8 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAR_YEAR_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) { // Activity.RESULT_OK
-                // get String data from Intent
+            if (resultCode == RESULT_OK) {
+                assert data != null;
                 brandName = data.getStringExtra("brand");
                 modelName = data.getStringExtra("model");
                 logoId = data.getIntExtra("logo", R.drawable.audi);
@@ -163,21 +151,4 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
             }
         }
     }
-
-
-//        recyViewCarModelYear.addOnItemTouchListener(new RecyclerItemClickListener(this, recyViewCarModelYear,new RecyclerItemClickListener.OnItemClickListener() {
-//                    @Override public void onItemClick(View view, int position) {
-//                        Intent intentYear = new Intent(getApplicationContext(), VideoListActivity.class);
-//                        intentYear.putExtra("year", mYearList.get(position).getBrandModelYear());
-//                        intentYear.putExtra("model", modelName);
-//                        intentYear.putExtra("brand", brandName);
-//                        intentYear.putExtra("logo", logoId);
-//                        startActivityForResult(intentYear, CAR_YEAR_REQUEST_CODE);
-//                    }
-//
-//                    @Override public void onLongItemClick(View view, int position) {
-//                        // do whatever
-//                    }
-//                })
-//        );
 }

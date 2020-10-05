@@ -30,7 +30,6 @@ public class WarningLightListActivity extends AppCompatActivity {
 
     private static final int COLOR_REQUEST_CODE = 100;
 
-    private AdView mAdView;
     private ArrayList<WarningLight> mWarningLightArrayList;
     private Integer[] iconId;
     private String[] itemName;
@@ -51,24 +50,30 @@ public class WarningLightListActivity extends AppCompatActivity {
 
         final RecyclerView recyViewWarningLight = findViewById(R.id.recy_view_list_warning_light);
 
-        if(color.toString().equals("Red")){
-            RedSymbolsData symbols = new RedSymbolsData();
-            iconId =  symbols.getSYMBOLS_ICON_ID();
-            itemName = symbols.getSYMBOLS_NAME();
-            itemDescription = symbols.getSYMBOLS_MEANING();
-            mWarningLightArrayList = CreateWarningLightArrayList(iconId, itemName, itemDescription);
-        }else if(color.toString().equals("Orange")){
-            OrangeSymbolsData Symbols = new OrangeSymbolsData();
-            iconId =  Symbols.getSYMBOLS_ICON_ID();
-            itemName = Symbols.getSYMBOLS_NAME();
-            itemDescription = Symbols.getSYMBOLS_MEANING();
-            mWarningLightArrayList = CreateWarningLightArrayList(iconId, itemName, itemDescription);
-        }else if(color.toString().equals("Green")){
-            GreenSymbolsData Symbols = new GreenSymbolsData();
-            iconId =  Symbols.getSYMBOLS_ICON_ID();
-            itemName = Symbols.getSYMBOLS_NAME();
-            itemDescription = Symbols.getSYMBOLS_MEANING();
-            mWarningLightArrayList = CreateWarningLightArrayList(iconId, itemName, itemDescription);
+        switch (color) {
+            case "Red":
+                RedSymbolsData symbols = new RedSymbolsData();
+                iconId = symbols.getSYMBOLS_ICON_ID();
+                itemName = symbols.getSYMBOLS_NAME();
+                itemDescription = symbols.getSYMBOLS_MEANING();
+                mWarningLightArrayList = CreateWarningLightArrayList(iconId, itemName, itemDescription);
+                break;
+            case "Orange": {
+                OrangeSymbolsData Symbols = new OrangeSymbolsData();
+                iconId = Symbols.getSYMBOLS_ICON_ID();
+                itemName = Symbols.getSYMBOLS_NAME();
+                itemDescription = Symbols.getSYMBOLS_MEANING();
+                mWarningLightArrayList = CreateWarningLightArrayList(iconId, itemName, itemDescription);
+                break;
+            }
+            case "Green": {
+                GreenSymbolsData Symbols = new GreenSymbolsData();
+                iconId = Symbols.getSYMBOLS_ICON_ID();
+                itemName = Symbols.getSYMBOLS_NAME();
+                itemDescription = Symbols.getSYMBOLS_MEANING();
+                mWarningLightArrayList = CreateWarningLightArrayList(iconId, itemName, itemDescription);
+                break;
+            }
         }
 
         RVWarningLightAdapter adapter = new RVWarningLightAdapter(mWarningLightArrayList);
@@ -92,7 +97,6 @@ public class WarningLightListActivity extends AppCompatActivity {
                 })
         );
 
-        // AdMob
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -101,20 +105,15 @@ public class WarningLightListActivity extends AppCompatActivity {
         AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // check that it is the SecondActivity with an OK result
         if (requestCode == COLOR_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) { // Activity.RESULT_OK
-
-                // get String data from Intent
+            if (resultCode == RESULT_OK) {
+                assert data != null;
                 color = data.getStringExtra("color");
-
             }
         }
     }

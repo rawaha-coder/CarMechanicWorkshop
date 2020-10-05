@@ -30,12 +30,15 @@ import java.util.List;
 
 import static com.automobilegt.carmechanicworkshop.util.Constants.AUTOMOBILEGT_URL;
 import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_BRAND;
-import static com.automobilegt.carmechanicworkshop.util.Constants.COLLECTION;
+import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_URL;
+import static com.automobilegt.carmechanicworkshop.util.Constants.SECOND_URL;
 
 public class CarBrandActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Car>>, ListItemClickListener {
 
     private static final int BRAND_LOADER_ID = 1;
     private List<Car> mCarList;
+    private String firstUrl;
+    private String secondURL;
     private RVCarAdapter mAdapter;
     private ProgressBar mProgressBar;
 
@@ -45,7 +48,6 @@ public class CarBrandActivity extends AppCompatActivity implements LoaderManager
         setContentView(R.layout.activity_car_brand);
         setTitle("Car Brand");
 
-        // AdMob initialization
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -55,11 +57,11 @@ public class CarBrandActivity extends AppCompatActivity implements LoaderManager
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
-        // Fields initialization
         mProgressBar = findViewById(R.id.cmw_progress_bar);
         mProgressBar.setVisibility(View.VISIBLE);
-
         mCarList = new ArrayList<>();
+        firstUrl = AUTOMOBILEGT_URL + FIRST_URL + "/" + CAR_BRAND + ".json";
+        secondURL = AUTOMOBILEGT_URL + SECOND_URL + "/" + CAR_BRAND + ".json";
 
         LoaderManager.getInstance(this).restartLoader(BRAND_LOADER_ID, null, this);
 
@@ -73,7 +75,7 @@ public class CarBrandActivity extends AppCompatActivity implements LoaderManager
     @NonNull
     @Override
     public Loader<List<Car>> onCreateLoader(int id, @Nullable Bundle args) {
-        return new CarLoader(this,AUTOMOBILEGT_URL + COLLECTION + "/" + CAR_BRAND + ".json");
+        return new CarLoader(this,firstUrl, secondURL);
     }
 
     @Override
