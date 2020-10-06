@@ -55,4 +55,5 @@
     <string name="car_brand_logo">Car brand logo</string>
     <string name="warning_light_title">Warning Light Title</string>
     <string name="warning_light_symbol">Warning light symbol</string>
+    <string name="no_connect_server">Unable to connect to server closed the app and try again.</string>
 </resources>

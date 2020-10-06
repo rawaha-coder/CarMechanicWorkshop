@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,10 +28,9 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.automobilegt.carmechanicworkshop.util.Constants.AUTOMOBILEGT_URL;
 import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_BRAND;
-import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_URL;
-import static com.automobilegt.carmechanicworkshop.util.Constants.SECOND_URL;
+import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_SERVER;
+import static com.automobilegt.carmechanicworkshop.util.Constants.SECOND_SERVER;
 
 public class CarBrandActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Car>>, ListItemClickListener {
 
@@ -41,6 +40,8 @@ public class CarBrandActivity extends AppCompatActivity implements LoaderManager
     private String secondURL;
     private RVCarAdapter mAdapter;
     private ProgressBar mProgressBar;
+    private TextView emptyView;
+    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +54,16 @@ public class CarBrandActivity extends AppCompatActivity implements LoaderManager
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        AdView adView = findViewById(R.id.adView);
+        adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
         mProgressBar = findViewById(R.id.cmw_progress_bar);
         mProgressBar.setVisibility(View.VISIBLE);
+        emptyView = findViewById(R.id.emptyView);
         mCarList = new ArrayList<>();
-        firstUrl = AUTOMOBILEGT_URL + FIRST_URL + "/" + CAR_BRAND + ".json";
-        secondURL = AUTOMOBILEGT_URL + SECOND_URL + "/" + CAR_BRAND + ".json";
+        firstUrl = FIRST_SERVER + CAR_BRAND + ".json";
+        secondURL = SECOND_SERVER  + CAR_BRAND + ".json";
 
         LoaderManager.getInstance(this).restartLoader(BRAND_LOADER_ID, null, this);
 
@@ -86,13 +88,15 @@ public class CarBrandActivity extends AppCompatActivity implements LoaderManager
             mCarList.addAll(carList);
             mAdapter.notifyDataSetChanged();
         }else {
-            Toast.makeText(this, "No brand found ", Toast.LENGTH_SHORT).show();
+            emptyView.setVisibility(View.VISIBLE);
+            adView.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<List<Car>> loader) {
-        Toast.makeText(this, "No brand found ", Toast.LENGTH_SHORT).show();
+        emptyView.setVisibility(View.VISIBLE);
+        adView.setVisibility(View.INVISIBLE);
     }
 
     @Override

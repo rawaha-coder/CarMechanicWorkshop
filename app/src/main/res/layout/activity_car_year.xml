@@ -27,4 +27,8 @@
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
         ads:adUnitId="@string/adUnitId"/>
+
+    <TextView
+        android:id="@+id/emptyView"
+        style="@style/EmptyTextViewStyle" />
 </RelativeLayout>
