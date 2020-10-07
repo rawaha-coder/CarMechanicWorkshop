@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
 
@@ -24,13 +23,6 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Objects;
 
 import static com.automobilegt.carmechanicworkshop.util.Constants.SETTING_PREFERENCES;
 
@@ -38,10 +30,6 @@ import static com.automobilegt.carmechanicworkshop.util.Constants.SETTING_PREFER
 public class MainActivity extends AppCompatActivity {
 
     SharedPreferences mSharedPreferences;
-
-    //Firebase connection
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,16 +50,6 @@ public class MainActivity extends AppCompatActivity {
         AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
-
-        if(currentUser == null){
-            signInAnonymously();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        currentUser = mAuth.getCurrentUser();
     }
 
     public void carMakerList(View view) {
@@ -115,22 +93,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog.show();
-    }
-
-    // [SignIn_anonymously]
-    private void signInAnonymously() {
-        mAuth.signInAnonymously()
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in Anonymously success
-                            currentUser = mAuth.getCurrentUser();
-                        } else {
-                            // If sign in Anonymously fails
-                            Objects.requireNonNull(task.getException()).getMessage();
-                        }
-                    }
-                });
     }
 }

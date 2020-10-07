@@ -56,4 +56,7 @@
     <string name="warning_light_title">Warning Light Title</string>
     <string name="warning_light_symbol">Warning light symbol</string>
     <string name="no_connect_server">Unable to connect the server, please closed the app and try again.</string>
+    <string name="action_suggest_video">Suggest video</string>
+    <string name="extended_fab_add_video">fab Button: Suggest Video</string>
+    <string name="extended_fab_label">Suggest Video</string>
 </resources>

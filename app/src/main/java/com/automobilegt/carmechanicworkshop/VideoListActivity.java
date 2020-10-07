@@ -131,7 +131,7 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
         Collections.sort(data);
         mVideoList.clear();
         mProgressBar.setVisibility(View.GONE);
-        if (data != null && !data.isEmpty()){
+        if (!data.isEmpty()){
             mVideoList.addAll(data);
             mAdapter.notifyDataSetChanged();
         }else {

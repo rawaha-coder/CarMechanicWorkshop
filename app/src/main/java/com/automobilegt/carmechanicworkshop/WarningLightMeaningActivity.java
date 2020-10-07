@@ -47,7 +47,6 @@ public class WarningLightMeaningActivity extends AppCompatActivity {
         symbolName.setText(sName);
         symbolDescription.setText(sDescription);
         symbolImage.setImageResource(sImageId);
-
     }
 
     @Override
@@ -61,6 +60,5 @@ public class WarningLightMeaningActivity extends AppCompatActivity {
         }else {
             return super.onOptionsItemSelected(item);
         }
-
     }
 }

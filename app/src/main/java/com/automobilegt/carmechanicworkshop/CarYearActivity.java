@@ -138,7 +138,6 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
             return true;
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     @Override
@@ -150,7 +149,6 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
                 brandName = data.getStringExtra("brand");
                 modelName = data.getStringExtra("model");
                 logoId = data.getIntExtra("logo", R.drawable.audi);
-
             }
         }
     }

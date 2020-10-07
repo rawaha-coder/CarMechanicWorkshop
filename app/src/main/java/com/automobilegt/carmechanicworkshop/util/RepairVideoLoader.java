@@ -7,9 +7,11 @@ import androidx.annotation.Nullable;
 import androidx.loader.content.AsyncTaskLoader;
 
 import com.automobilegt.carmechanicworkshop.controller.RequestQuery;
+import com.automobilegt.carmechanicworkshop.model.RepairVideo;
 
-public class RepairVideoLoader extends AsyncTaskLoader {
-    //private String mUrl;
+import java.util.List;
+
+public class RepairVideoLoader extends AsyncTaskLoader <List<RepairVideo>>{
     private String firstUrl;
     private String secondURL;
 
@@ -26,7 +28,7 @@ public class RepairVideoLoader extends AsyncTaskLoader {
 
     @Nullable
     @Override
-    public Object loadInBackground() {
+    public List<RepairVideo> loadInBackground() {
         if (firstUrl == null || secondURL == null) {
             return null;
         }

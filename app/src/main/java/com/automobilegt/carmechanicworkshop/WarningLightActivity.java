@@ -18,25 +18,7 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 
 public class WarningLightActivity extends AppCompatActivity {
 
-    public void warningLightSymbols(View view) {
-        String color;
-        if(view.getTag().toString().equals("red")){
-            Intent intent = new Intent(getApplicationContext(), WarningLightListActivity.class );
-            color = "Red";
-            intent.putExtra("color", color);
-            startActivity(intent);
-        }else if(view.getTag().toString().equals("orange")) {
-            Intent intent = new Intent(getApplicationContext(), WarningLightListActivity.class );
-            color = "Orange";
-            intent.putExtra("color", color);
-            startActivity(intent);
-        }else if(view.getTag().toString().equals("green")) {
-            Intent intent = new Intent(getApplicationContext(), WarningLightListActivity.class );
-            color = "Green";
-            intent.putExtra("color", color);
-            startActivity(intent);
-        }
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +36,32 @@ public class WarningLightActivity extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
-        TextView textView = findViewById(R.id.bashboard_warning_text_view);
+        TextView textView = findViewById(R.id.dashboard_warning_text_view);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             textView.setText(Html.fromHtml(getString(R.string.dashboard_warning_light_text), HtmlCompat.FROM_HTML_MODE_LEGACY));
         } else {
             textView.setText(Html.fromHtml(getString(R.string.dashboard_warning_light_text)));
+        }
+    }
+
+    public void warningLightSymbols(View view) {
+        String color;
+        if(view.getTag().toString().equals("red")){
+            Intent intent = new Intent(getApplicationContext(), WarningLightListActivity.class );
+            color = "Red";
+            intent.putExtra("color", color);
+            startActivity(intent);
+        }else if(view.getTag().toString().equals("orange")) {
+            Intent intent = new Intent(getApplicationContext(), WarningLightListActivity.class );
+            color = "Orange";
+            intent.putExtra("color", color);
+            startActivity(intent);
+        }else if(view.getTag().toString().equals("green")) {
+            Intent intent = new Intent(getApplicationContext(), WarningLightListActivity.class );
+            color = "Green";
+            intent.putExtra("color", color);
+            startActivity(intent);
         }
     }
 }
