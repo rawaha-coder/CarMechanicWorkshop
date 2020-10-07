@@ -1,8 +1,10 @@
 package com.automobilegt.carmechanicworkshop.model;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
-public class RepairVideo implements Serializable {
+public class RepairVideo implements Serializable, Comparable<RepairVideo> {
 
     private String mVideoTitle;
     private String mVideoDescription;
@@ -24,5 +26,17 @@ public class RepairVideo implements Serializable {
 
     public String getVideoLink() {
         return mVideoLink;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return mVideoTitle;
+    }
+
+
+    @Override
+    public int compareTo(RepairVideo repairVideo) {
+        return this.mVideoTitle.compareTo(repairVideo.mVideoTitle);
     }
 }

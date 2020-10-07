@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,15 +7,9 @@
     android:orientation="vertical"
     tools:context=".VideoListActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recy_view_video_list_activity"
-            style="@style/CarListRecyclerViewStyle"/>
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recy_view_video_list_activity"
+        style="@style/CarListRecyclerViewStyle" />
 
     <ProgressBar
         android:id="@+id/cmw_progress_bar"
@@ -33,6 +26,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/adUnitId"/>
+        ads:adUnitId="@string/adUnitId" />
+
+    <TextView
+        android:id="@+id/emptyView"
+        style="@style/EmptyTextViewStyle" />
 
 </RelativeLayout>

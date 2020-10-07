@@ -12,7 +12,7 @@ import com.automobilegt.carmechanicworkshop.model.Car;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarLoader extends AsyncTaskLoader {
+public class CarLoader extends AsyncTaskLoader<List<Car>> {
     private String firstUrl;
     private String secondURL;
     private String mContextName;
@@ -39,17 +39,21 @@ public class CarLoader extends AsyncTaskLoader {
 
     @Nullable
     @Override
-    public Object loadInBackground() {
+    public List<Car> loadInBackground() {
         List<Car> list = new ArrayList<>();
         if (firstUrl == null || secondURL == null) {
             return null;
         }
-        if (mContextName.equals("com.automobilegt.carmechanicworkshop.CarBrandActivity")){
-            list = RequestQuery.fetchBrandData(firstUrl, secondURL);
-        }else if(mContextName.equals("com.automobilegt.carmechanicworkshop.CarModelActivity")){
-            list = RequestQuery.fetchModelData(firstUrl, secondURL, mLogo);
-        }else if (mContextName.equals("com.automobilegt.carmechanicworkshop.CarYearActivity")){
-            list = RequestQuery.fetchYearData(firstUrl, secondURL, mLogo);
+        switch (mContextName) {
+            case "com.automobilegt.carmechanicworkshop.CarBrandActivity":
+                list = RequestQuery.fetchBrandData(firstUrl, secondURL);
+                break;
+            case "com.automobilegt.carmechanicworkshop.CarModelActivity":
+                list = RequestQuery.fetchModelData(firstUrl, secondURL, mLogo);
+                break;
+            case "com.automobilegt.carmechanicworkshop.CarYearActivity":
+                list = RequestQuery.fetchYearData(firstUrl, secondURL, mLogo);
+                break;
         }
         return list;
     }

@@ -48,10 +48,7 @@ public class RVCarAdapter extends RecyclerView.Adapter<RVCarAdapter.ViewHolder> 
 
         ImageView playArrow = holder.mPlayArrowImageView;
         playArrow.setImageResource(R.drawable.ic_play_arrow);
-        LinearLayout root = holder.rvRowRoot;
-        if (position == (mCarList.size()-1)){
-            root.setPadding(0,0,0,100);
-        }
+
     }
 
     @Override
@@ -69,7 +66,6 @@ public class RVCarAdapter extends RecyclerView.Adapter<RVCarAdapter.ViewHolder> 
             mCarBrandLogoImageView = itemView.findViewById(R.id.rv_row_car_logo);
             mModelYearTextView = itemView.findViewById(R.id.rv_row_car);
             mPlayArrowImageView = itemView.findViewById(R.id.rv_row_play_arrow);
-            rvRowRoot = itemView.findViewById(R.id.rv_row_car_root);
             itemView.setOnClickListener(this);
         }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,9 +23,9 @@
             android:layout_gravity="start">
 
             <TextView
-                android:id="@+id/bashboard_warning_text_view"
+                android:id="@+id/dashboard_warning_text_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
@@ -37,50 +36,29 @@
 
             <Button
                 android:id="@+id/red_light_button"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                style="@style/WarningLightButtonStyle"
                 android:background="@android:color/holo_red_dark"
-                android:onClick="warningLightSymbols"
                 android:tag="red"
-                android:text="@string/red_warning_light_button"
-                android:textColor="@android:color/black" />
+                android:onClick="warningLightSymbols"
+                android:text="@string/red_warning_light_button"/>
 
             <Button
                 android:id="@+id/orange_light_button"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                style="@style/WarningLightButtonStyle"
                 android:background="@android:color/holo_orange_dark"
-                android:onClick="warningLightSymbols"
                 android:tag="orange"
-                android:text="@string/orange_warning_light_button"
-                android:textColor="@android:color/black" />
+                android:onClick="warningLightSymbols"
+                android:text="@string/orange_warning_light_button"/>
 
             <Button
                 android:id="@+id/blue_light_button"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                style="@style/WarningLightButtonStyle"
                 android:background="@android:color/holo_green_dark"
-                android:onClick="warningLightSymbols"
                 android:tag="green"
-                android:text="@string/green_warning_light_button"
-                android:textColor="@android:color/black" />
-
+                android:onClick="warningLightSymbols"
+                android:text="@string/green_warning_light_button" />
 
         </LinearLayout>
-
-
     </ScrollView>
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -91,5 +69,4 @@
             android:layout_centerHorizontal="true"
             ads:adSize="BANNER"
             ads:adUnitId="@string/adUnitId"/>
-
 </RelativeLayout>

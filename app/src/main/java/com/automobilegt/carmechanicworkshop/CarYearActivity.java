@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,10 +29,9 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.automobilegt.carmechanicworkshop.util.Constants.AUTOMOBILEGT_URL;
 import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_YEAR;
-import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_URL;
-import static com.automobilegt.carmechanicworkshop.util.Constants.SECOND_URL;
+import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_SERVER;
+import static com.automobilegt.carmechanicworkshop.util.Constants.SECOND_SERVER;
 
 
 public class CarYearActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Car>>, ListItemClickListener {
@@ -47,6 +46,8 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
     private String firstUrl;
     private String secondURL;
     private RVCarAdapter mAdapter;
+    private TextView emptyView;
+    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        AdView adView = findViewById(R.id.adView);
+        adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
@@ -76,10 +77,10 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
         modelFolder = modelFolder.replaceAll("\\s","");
 
         setTitle(brandName + " " + modelName);
-
+        emptyView = findViewById(R.id.emptyView);
         mYearList = new ArrayList<>();
-        firstUrl = AUTOMOBILEGT_URL + FIRST_URL + "/" + brandFolder + "/" + modelFolder + "/" + CAR_YEAR + ".json";
-        secondURL = AUTOMOBILEGT_URL + SECOND_URL + "/" + brandFolder + "/" + modelFolder + "/" + CAR_YEAR + ".json";
+        firstUrl = FIRST_SERVER + brandFolder + "/" + modelFolder + "/" + CAR_YEAR + ".json";
+        secondURL = SECOND_SERVER + brandFolder + "/" + modelFolder + "/" + CAR_YEAR + ".json";
 
         LoaderManager.getInstance(this).restartLoader(YEAR_LOADER_ID, null, this);
 
@@ -105,13 +106,15 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
             mYearList.addAll(data);
             mAdapter.notifyDataSetChanged();
         }else {
-            Toast.makeText(this, "No Year found ", Toast.LENGTH_SHORT).show();
+            emptyView.setVisibility(View.VISIBLE);
+            adView.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<List<Car>> loader) {
-        Toast.makeText(this, "No Year found ", Toast.LENGTH_SHORT).show();
+        emptyView.setVisibility(View.VISIBLE);
+        adView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -135,7 +138,6 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
             return true;
         }
         return super.onOptionsItemSelected(item);
-
     }
 
     @Override
@@ -147,7 +149,6 @@ public class CarYearActivity extends AppCompatActivity implements LoaderManager.
                 brandName = data.getStringExtra("brand");
                 modelName = data.getStringExtra("model");
                 logoId = data.getIntExtra("logo", R.drawable.audi);
-
             }
         }
     }

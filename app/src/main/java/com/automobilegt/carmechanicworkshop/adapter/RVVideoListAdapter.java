@@ -41,22 +41,13 @@ public class RVVideoListAdapter extends RecyclerView.Adapter<RVVideoListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         RepairVideo videoModel = mCarVideoList.get(position);
-
         ImageView brandLogo = holder.mCarBrandLogoImageView;
         brandLogo.setImageResource(mLogoResId);
-
         TextView videoTitle = holder.mVideoTitleTextView;
         videoTitle.setText(videoModel.getVideoTitle());
-
         ImageView playArrow = holder.mPlayArrowImageView;
         playArrow.setImageResource(R.drawable.ic_play_arrow);
-
-        LinearLayout root = holder.rvRowRoot;
-        if (position == (mCarVideoList.size()-1)){
-            root.setPadding(0,0,0,100);
-        }
     }
 
     @Override
@@ -64,17 +55,17 @@ public class RVVideoListAdapter extends RecyclerView.Adapter<RVVideoListAdapter.
         return mCarVideoList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView mCarBrandLogoImageView;
         TextView mVideoTitleTextView;
         ImageView mPlayArrowImageView;
         LinearLayout rvRowRoot;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mCarBrandLogoImageView = itemView.findViewById(R.id.adapter_car_brand_logo);
             mVideoTitleTextView = itemView.findViewById(R.id.adapter_car_video_name);
             mPlayArrowImageView = itemView.findViewById(R.id.adapter_play_arrow_model);
-            rvRowRoot = itemView.findViewById(R.id.rv_row_video_root);
             itemView.setOnClickListener(this);
         }
 

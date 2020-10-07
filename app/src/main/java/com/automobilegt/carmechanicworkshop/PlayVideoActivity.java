@@ -24,7 +24,6 @@ public class PlayVideoActivity extends AppCompatActivity {
     private String brandName;
     private String modelName;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +39,6 @@ public class PlayVideoActivity extends AppCompatActivity {
         adView.loadAd(adRequest);
 
         mVideo = (RepairVideo) getIntent().getSerializableExtra("video");
-
         brandName = getIntent().getStringExtra("brand");
         modelName = getIntent().getStringExtra("model");
         year = getIntent().getStringExtra("year");
@@ -48,10 +46,8 @@ public class PlayVideoActivity extends AppCompatActivity {
 
         TextView videoTitleTextView = findViewById(R.id.video_title_text_view);
         TextView videoMessageTextView = findViewById(R.id.video_message_text_view);
-
         videoTitleTextView.setText(mVideo.getVideoTitle());
         videoMessageTextView.setText(mVideo.getVideoDescription());
-
     }
 
     public void goPlayVideo(View view) {

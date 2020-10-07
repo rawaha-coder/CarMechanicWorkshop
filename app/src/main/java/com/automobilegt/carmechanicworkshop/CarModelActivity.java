@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,10 +28,9 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.automobilegt.carmechanicworkshop.util.Constants.AUTOMOBILEGT_URL;
 import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_MODEL;
-import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_URL;
-import static com.automobilegt.carmechanicworkshop.util.Constants.SECOND_URL;
+import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_SERVER;
+import static com.automobilegt.carmechanicworkshop.util.Constants.SECOND_SERVER;
 
 public class CarModelActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Car>>, ListItemClickListener {
 
@@ -44,8 +43,8 @@ public class CarModelActivity extends AppCompatActivity implements LoaderManager
     private String firstUrl;
     private String secondURL;
     private RVCarAdapter mAdapter;
-
-
+    private TextView emptyView;
+    private AdView adView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +55,7 @@ public class CarModelActivity extends AppCompatActivity implements LoaderManager
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        AdView adView = findViewById(R.id.adView);
+        adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
@@ -70,9 +69,10 @@ public class CarModelActivity extends AppCompatActivity implements LoaderManager
         String brandFolder = brandName.toLowerCase();
         brandFolder = brandFolder.replaceAll("\\s","");
 
+        emptyView = findViewById(R.id.emptyView);
         mModelList = new ArrayList<>();
-        firstUrl = AUTOMOBILEGT_URL + FIRST_URL + "/" + brandFolder + "/" + CAR_MODEL + ".json";
-        secondURL = AUTOMOBILEGT_URL + SECOND_URL + "/" + brandFolder + "/" + CAR_MODEL + ".json";
+        firstUrl = FIRST_SERVER + brandFolder + "/" + CAR_MODEL + ".json";
+        secondURL = SECOND_SERVER + brandFolder + "/" + CAR_MODEL + ".json";
 
         LoaderManager.getInstance(this).restartLoader(MODEL_LOADER_ID, null, this);
 
@@ -109,13 +109,15 @@ public class CarModelActivity extends AppCompatActivity implements LoaderManager
             mModelList.addAll(modelList);
             mAdapter.notifyDataSetChanged();
         }else {
-            Toast.makeText(this, "No Model found ", Toast.LENGTH_SHORT).show();
+            emptyView.setVisibility(View.VISIBLE);
+            adView.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<List<Car>> loader) {
-        Toast.makeText(this, "No Model found ", Toast.LENGTH_SHORT).show();
+        emptyView.setVisibility(View.VISIBLE);
+        adView.setVisibility(View.INVISIBLE);
     }
 
     @Override
