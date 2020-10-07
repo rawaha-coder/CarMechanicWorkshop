@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,11 +27,11 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import static com.automobilegt.carmechanicworkshop.util.Constants.AUTOMOBILEGT_URL;
-import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_URL;
-import static com.automobilegt.carmechanicworkshop.util.Constants.SECOND_URL;
+import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_SERVER;
+import static com.automobilegt.carmechanicworkshop.util.Constants.SECOND_SERVER;
 
 
 public class VideoListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<RepairVideo>>, ListItemClickListener {
@@ -47,7 +47,8 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
     private String firstUrl;
     private String secondURL;
     private RVVideoListAdapter mAdapter;
-
+    private TextView emptyView;
+    private AdView adView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,7 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        AdView adView = findViewById(R.id.adView);
+        adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
@@ -76,10 +77,10 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
 
         String modelFolder = modelName.toLowerCase();
         modelFolder = modelFolder.replaceAll("\\s","");
-
+        emptyView = findViewById(R.id.emptyView);
         mVideoList = new ArrayList<>();
-        firstUrl = AUTOMOBILEGT_URL + FIRST_URL + "/" + brandFolder + "/" + modelFolder + "/" + year + ".json";
-        secondURL = AUTOMOBILEGT_URL + SECOND_URL + "/" + brandFolder + "/" + modelFolder + "/" + year + ".json";
+        firstUrl = FIRST_SERVER + brandFolder + "/" + modelFolder + "/" + year + ".json";
+        secondURL = SECOND_SERVER + brandFolder + "/" + modelFolder + "/" + year + ".json";
 
         RecyclerView recyViewCarVideoList = findViewById(R.id.recy_view_video_list_activity);
         mAdapter = new RVVideoListAdapter(this, mVideoList, logoId);
@@ -127,19 +128,22 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<RepairVideo>> loader, List<RepairVideo> data) {
+        Collections.sort(data);
         mVideoList.clear();
         mProgressBar.setVisibility(View.GONE);
-        if (data != null && !data.isEmpty()){
+        if (!data.isEmpty()){
             mVideoList.addAll(data);
             mAdapter.notifyDataSetChanged();
         }else {
-            Toast.makeText(this, "No Year found ", Toast.LENGTH_SHORT).show();
+            emptyView.setVisibility(View.VISIBLE);
+            adView.setVisibility(View.INVISIBLE);
         }
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<List<RepairVideo>> loader) {
-        Toast.makeText(this, "No Video found ", Toast.LENGTH_SHORT).show();
+        emptyView.setVisibility(View.VISIBLE);
+        adView.setVisibility(View.INVISIBLE);
     }
 
     @Override

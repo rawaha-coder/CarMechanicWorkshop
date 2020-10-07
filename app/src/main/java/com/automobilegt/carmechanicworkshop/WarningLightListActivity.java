@@ -2,7 +2,6 @@ package com.automobilegt.carmechanicworkshop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,10 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.automobilegt.carmechanicworkshop.adapter.RVWarningLightAdapter;
-import com.automobilegt.carmechanicworkshop.controller.RecyclerItemClickListener;
 import com.automobilegt.carmechanicworkshop.data.GreenSymbolsData;
 import com.automobilegt.carmechanicworkshop.data.OrangeSymbolsData;
 import com.automobilegt.carmechanicworkshop.data.RedSymbolsData;
+import com.automobilegt.carmechanicworkshop.interfaces.ListItemClickListener;
 import com.automobilegt.carmechanicworkshop.model.WarningLight;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -26,7 +25,7 @@ import java.util.ArrayList;
 
 import static com.automobilegt.carmechanicworkshop.model.WarningLight.CreateWarningLightArrayList;
 
-public class WarningLightListActivity extends AppCompatActivity {
+public class WarningLightListActivity extends AppCompatActivity implements ListItemClickListener {
 
     private static final int COLOR_REQUEST_CODE = 100;
 
@@ -76,26 +75,10 @@ public class WarningLightListActivity extends AppCompatActivity {
             }
         }
 
-        RVWarningLightAdapter adapter = new RVWarningLightAdapter(mWarningLightArrayList);
+        RVWarningLightAdapter adapter = new RVWarningLightAdapter(mWarningLightArrayList, this);
         recyViewWarningLight.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
         recyViewWarningLight.setAdapter(adapter);
         recyViewWarningLight.setLayoutManager(new LinearLayoutManager(this));
-
-        recyViewWarningLight.addOnItemTouchListener(new RecyclerItemClickListener(this, recyViewWarningLight ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(getApplicationContext(), WarningLightMeaningActivity.class);
-                        intent.putExtra("image", iconId[+position]);
-                        intent.putExtra("description", itemDescription[+position]);
-                        intent.putExtra("name", itemName[+position]);
-                        intent.putExtra("color", color);
-                        startActivityForResult(intent, COLOR_REQUEST_CODE);
-                    }
-
-                    @Override public void onLongItemClick(View view, int position) {
-                        // do whatever
-                    }
-                })
-        );
 
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -116,5 +99,15 @@ public class WarningLightListActivity extends AppCompatActivity {
                 color = data.getStringExtra("color");
             }
         }
+    }
+
+    @Override
+    public void onListItemClick(int clickedItemIndex) {
+        Intent intent = new Intent(getApplicationContext(), WarningLightMeaningActivity.class);
+        intent.putExtra("image", iconId[+clickedItemIndex]);
+        intent.putExtra("description", itemDescription[+clickedItemIndex]);
+        intent.putExtra("name", itemName[+clickedItemIndex]);
+        intent.putExtra("color", color);
+        startActivityForResult(intent, COLOR_REQUEST_CODE);
     }
 }

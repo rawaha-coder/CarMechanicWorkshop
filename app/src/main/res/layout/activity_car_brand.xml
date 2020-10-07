@@ -8,7 +8,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recy_view_car_brand_activity"
-        style="@style/CarListRecyclerViewStyle"/>
+        style="@style/CarListRecyclerViewStyle" />
 
     <ProgressBar
         android:id="@+id/cmw_progress_bar"
@@ -26,4 +26,8 @@
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
         ads:adUnitId="@string/adUnitId"/>
+
+    <TextView
+        android:id="@+id/emptyView"
+        style="@style/EmptyTextViewStyle" />
 </RelativeLayout>
