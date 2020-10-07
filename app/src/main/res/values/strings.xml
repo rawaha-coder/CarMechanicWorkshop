@@ -48,12 +48,12 @@
     <string name="car_link_video_shared">Video Link</string>
     <string name="symbol_image">symbol image</string>
 
-    <!--Next Version String V3-->
-    <string name="no_internet_connection">No internet connection</string>
+    <!--Version 3 String-->
+    <string name="no_internet_connection">No internet found. Please check your internet connection and try again.</string>
     <string name="car_brand_name">Car Brand Name</string>
     <string name="right_arrow">Right arrow</string>
     <string name="car_brand_logo">Car brand logo</string>
     <string name="warning_light_title">Warning Light Title</string>
     <string name="warning_light_symbol">Warning light symbol</string>
-    <string name="no_connect_server">Unable to connect to server closed the app and try again.</string>
+    <string name="no_connect_server">Unable to connect the server, please closed the app and try again.</string>
 </resources>

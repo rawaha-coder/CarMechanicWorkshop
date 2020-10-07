@@ -27,6 +27,7 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_SERVER;
@@ -127,6 +128,7 @@ public class VideoListActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<RepairVideo>> loader, List<RepairVideo> data) {
+        Collections.sort(data);
         mVideoList.clear();
         mProgressBar.setVisibility(View.GONE);
         if (data != null && !data.isEmpty()){
