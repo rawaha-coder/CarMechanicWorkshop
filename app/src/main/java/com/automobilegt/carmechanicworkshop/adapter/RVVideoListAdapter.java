@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,9 +33,8 @@ public class RVVideoListAdapter extends RecyclerView.Adapter<RVVideoListAdapter.
         Context context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
 
-        View carModelRowAdapter = layoutInflater.inflate(R.layout.video_list_row_adapter, parent, false);
-        ViewHolder viewHolder = new ViewHolder(carModelRowAdapter);
-        return viewHolder;
+        View view = layoutInflater.inflate(R.layout.video_list_row_adapter, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -59,8 +57,6 @@ public class RVVideoListAdapter extends RecyclerView.Adapter<RVVideoListAdapter.
         ImageView mCarBrandLogoImageView;
         TextView mVideoTitleTextView;
         ImageView mPlayArrowImageView;
-        LinearLayout rvRowRoot;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mCarBrandLogoImageView = itemView.findViewById(R.id.adapter_car_brand_logo);

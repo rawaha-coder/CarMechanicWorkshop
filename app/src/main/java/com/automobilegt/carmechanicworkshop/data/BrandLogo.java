@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class BrandLogo {
 
-    public static HashMap<String, Integer> LOGO_ID = new HashMap<String, Integer>();
+    public static HashMap<String, Integer> LOGO_ID = new HashMap<>();
 
     static {
         LOGO_ID.put("Acura", R.drawable.acura); //

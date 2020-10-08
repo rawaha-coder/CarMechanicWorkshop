@@ -1,4 +1,9 @@
 <resources>
+
+    <style name="SplashScreenTheme" parent = "Theme.AppCompat.NoActionBar">
+    <item name="android:windowBackground">@drawable/splash_screen_background</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -61,7 +66,7 @@
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_marginStart">8dp</item>
-        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginTop">4dp</item>
         <item name="android:layout_marginEnd">8dp</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
@@ -77,6 +82,5 @@
         <item name="android:textSize">18sp</item>
         <item name="android:text">@string/no_connect_server</item>
     </style>
-
 
 </resources>

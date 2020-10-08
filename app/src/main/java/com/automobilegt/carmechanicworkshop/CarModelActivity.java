@@ -45,6 +45,7 @@ public class CarModelActivity extends AppCompatActivity implements LoaderManager
     private RVCarAdapter mAdapter;
     private TextView emptyView;
     private AdView adView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
