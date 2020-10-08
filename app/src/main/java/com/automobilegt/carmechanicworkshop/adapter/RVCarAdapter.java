@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,7 +17,6 @@ import com.automobilegt.carmechanicworkshop.model.Car;
 import java.util.List;
 
 public class RVCarAdapter extends RecyclerView.Adapter<RVCarAdapter.ViewHolder> {
-
     private List<Car> mCarList;
     private ListItemClickListener mListItemClickListener;
 
@@ -39,16 +37,12 @@ public class RVCarAdapter extends RecyclerView.Adapter<RVCarAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Car car = mCarList.get(position);
-
         ImageView brandLogo = holder.mCarBrandLogoImageView;
         brandLogo.setImageResource(car.getLogo());
-
         TextView modelYear = holder.mModelYearTextView;
         modelYear.setText(car.getBrandModelYear());
-
         ImageView playArrow = holder.mPlayArrowImageView;
         playArrow.setImageResource(R.drawable.ic_play_arrow);
-
     }
 
     @Override
@@ -60,7 +54,6 @@ public class RVCarAdapter extends RecyclerView.Adapter<RVCarAdapter.ViewHolder> 
         ImageView mCarBrandLogoImageView;
         TextView mModelYearTextView;
         ImageView mPlayArrowImageView;
-        LinearLayout rvRowRoot;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mCarBrandLogoImageView = itemView.findViewById(R.id.rv_row_car_logo);

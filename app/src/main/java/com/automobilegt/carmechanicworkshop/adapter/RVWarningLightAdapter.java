@@ -30,10 +30,8 @@ public class RVWarningLightAdapter extends RecyclerView.Adapter<RVWarningLightAd
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-
-        View warningLightRowAdapter = layoutInflater.inflate(R.layout.warning_light_row_adapter, parent, false);
-        ViewHolder viewHolder = new ViewHolder(warningLightRowAdapter);
-        return viewHolder;
+        View view = layoutInflater.inflate(R.layout.warning_light_row_adapter, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -56,7 +54,6 @@ public class RVWarningLightAdapter extends RecyclerView.Adapter<RVWarningLightAd
         ImageView mWarningImageView;
         TextView mTitleTextView;
         ImageView mPlayArrowImageView;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mWarningImageView = itemView.findViewById(R.id.adapter_warning_light_icon);

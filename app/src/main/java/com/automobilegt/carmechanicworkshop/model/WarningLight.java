@@ -14,7 +14,7 @@ public class WarningLight {
     }
 
     public static ArrayList<WarningLight> CreateWarningLightArrayList(Integer[] symbolIcoId, String[] symbolName, String[] symbolDescrition){
-        ArrayList<WarningLight> symbolList = new ArrayList<WarningLight>();
+        ArrayList<WarningLight> symbolList = new ArrayList<>();
         for (int i=0; i<symbolIcoId.length; i++){
             symbolList.add(new WarningLight(symbolIcoId[i], symbolName[i], symbolDescrition[i]));
         }

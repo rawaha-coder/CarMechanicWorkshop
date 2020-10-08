@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (checkBox.isChecked()){
+                    mSharedPreferences.edit().putBoolean("installed", true).apply();
                     dialog.dismiss();
                 }else {
                     Toast.makeText(MainActivity.this, R.string.accept_started, Toast.LENGTH_SHORT).show();
