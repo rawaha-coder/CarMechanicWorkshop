@@ -33,7 +33,6 @@ import static com.automobilegt.carmechanicworkshop.util.Constants.CAR_YEAR;
 import static com.automobilegt.carmechanicworkshop.util.Constants.FIRST_SERVER;
 import static com.automobilegt.carmechanicworkshop.util.Constants.SECOND_SERVER;
 
-
 public class CarYearActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Car>>, ListItemClickListener {
 
     private static final int CAR_YEAR_REQUEST_CODE = 301;
