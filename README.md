@@ -2,38 +2,20 @@
 Car Mechanic Workshop app
 
 # About
-The use of Car Mechanic Workshop application is increasingly used to guide mechanic and the car owner to..
+Coding and designing the app using Java programming language. This app help car owners fix their car problems by providing well-selected and organized car repair YouTube videos, (Fix the problem of watching unrelated video provided by the search query in YouTube).
 
-# Requirements of the project
+![car-mechanic-workshop-guide](https://github.com/user-attachments/assets/0a887c66-563e-4aba-a414-42bc91dd0bf5)
 
+![sc0](https://github.com/user-attachments/assets/04833677-23b7-4f8e-8a29-084260a94d92)
 
-# Software
-The software is written in Java.
+![sc3](https://github.com/user-attachments/assets/c17d93d9-5e38-4cdf-966f-d46126681f7d)
 
-# Author
-Zakariae El Kadiri <rawaha.coder@gmail.com>
+![sc2](https://github.com/user-attachments/assets/5425d846-3538-41b8-82c0-907af06f6a11)
 
-# Licensing
-It is a adware software. you will find more information about the license in the license file.
+![sc1](https://github.com/user-attachments/assets/b63f953e-9674-494c-86e0-e0d13e8278b3)
 
-# Pre conditions of software 
-**************** Pre conditions of usage ***************************
-The system should be connected to the Internet.
+![Screenshot_20200901-203806](https://github.com/user-attachments/assets/876afe08-0c66-4f49-b349-f630e6772271)
 
+![Screenshot_20200901-203809](https://github.com/user-attachments/assets/6b7e1869-0c2a-4a0d-bf96-25fb57928cc7)
 
-# Software features:
-********************* How to show Geocaches ************************
-By pressing the button Get Started,  
- 
-*************** How to Save and Load the locations ****************
-For favorite: 
- Go to the top menu, select file --->   
- 
-************** How to change the color of the theme **************
-Go to Setting on the top menu, select �Theme Color�. 
- 
-****************** How to get help *******************************
-Go to the top menu, select �help�. 
- 
-******************* How to Exit the program **********************
-Go to File on the top menu, select �Exit�.
+![Screenshot_20200901-203818](https://github.com/user-attachments/assets/e46dcdde-ccd4-48fc-af7a-3c742050a3c8)
