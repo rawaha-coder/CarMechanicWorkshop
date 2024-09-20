@@ -2,7 +2,7 @@
 Car Mechanic Workshop app
 
 # About
-Coding and designing the app using Java programming language. This app help car owners fix their car problems by providing well-selected and organized car repair YouTube videos, (Fix the problem of watching unrelated video provided by the search query in YouTube).
+This app help car owners fix their car problems by providing well-selected and organized car repair YouTube videos, (Fix the problem of watching unrelated video provided by the search query in YouTube).
 
 I unpublished the app from the play store 
 
