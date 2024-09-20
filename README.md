@@ -8,6 +8,8 @@ I unpublished the app from the play store
 
 ![sc0](https://github.com/user-attachments/assets/04833677-23b7-4f8e-8a29-084260a94d92 width="480")
 
+<img src="[https://i.imgur.com/ZWnhY9T.png](https://github.com/user-attachments/assets/04833677-23b7-4f8e-8a29-084260a94d92)" width="450">
+
 
 ![sc3](https://github.com/user-attachments/assets/c17d93d9-5e38-4cdf-966f-d46126681f7d)
 
