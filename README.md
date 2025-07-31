@@ -1,7 +1,7 @@
 # CarMechanicWorkshop
 Car Mechanic Workshop app
 
-# About
+# About Car Mechanic Workshop app
 This app help car owners fix their car problems by providing well-selected and organized car repair YouTube videos, (Fix the problem of watching unrelated video provided by the search query in YouTube).
 
 I unpublished the app from the play store 
